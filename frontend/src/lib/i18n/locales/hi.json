@@ -1,0 +1,201 @@
+{
+  "app": {
+    "name": "वार्डरोब"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "signup": "साइनअप",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "emailPlaceholder": "aap@example.com",
+    "passwordPlaceholder": "••••••••",
+    "loginSubtitle": "वार्डरोब प्रबंधन के लिए साइन इन करें।",
+    "signupSubtitle": "शुरू करने के लिए खाता बनाएँ।"
+  },
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "upload": "अपलोड",
+    "outfit": "आउटफिट",
+    "savedOutfits": "सहेजे आउटफिट",
+    "admin": "एडमिन",
+    "logout": "लॉग आउट",
+    "mainNav": "मुख्य नेविगेशन"
+  },
+  "common": {
+    "language": "भाषा",
+    "theme": "थीम",
+    "light": "लाइट",
+    "dark": "डार्क",
+    "loading": "लोड हो रहा है",
+    "cancel": "रद्द करें",
+    "retry": "फिर कोशिश करें"
+  },
+  "dashboard": {
+    "title": "डैशबोर्ड",
+    "subtitle": "आपके सहेजे गए कपड़े।"
+  },
+  "outfit": {
+    "title": "आउटफिट जेनरेटर",
+    "subtitle": "अवसर और मौसम चुनें, फिर अपने वार्डरोब से लुक बनाएँ।",
+    "occasion": "अवसर",
+    "weather": "मौसम",
+    "generate": "आउटफिट बनाओ",
+    "generateStylist": "स्टाइलिस्ट विकल्प",
+    "tryAgain": "एक और आउटफिट बनाओ",
+    "whyWorks": "यह क्यों सही है",
+    "emptyWardrobe": "पहले कुछ कपड़े जोड़ें — आपके भविष्य के आउटफिट इस पर निर्भर हैं 👗",
+    "uploadClothes": "कपड़े अपलोड करें",
+    "regeneratingHint": "दूसरा मिलान ढूँढ रहे हैं…",
+    "regeneratingStyling": "लुक ताज़ा कर रहे हैं…",
+    "generating": "बन रहा है…",
+    "generatingHint": "यह आपको आश्चर्यचकित कर सकता है 👀",
+    "stylingYourOutfit": "आपका आउटफिट स्टाइल हो रहा है…",
+    "matchConfidence": "{{percent}}% मिलान",
+    "pickLabels": {
+      "minimal": "सबसे अच्छा मिलान",
+      "trendy": "कुछ नया आज़माएँ",
+      "bold": "प्रीमियम चुनाव"
+    },
+    "recentlyGenerated": "हाल ही में बने",
+    "recentlyGeneratedHint": "किसी लुक पर टैप करके उसी अवसर और मौसम के साथ दोबारा खोलें।",
+    "emptyStateTitle": "अभी कोई आउटफिट नहीं",
+    "emptySuggestion1": "अवसर और मौसम चुनें, फिर बनाओ दबाएँ — हम आपकी अलमारी से लुक बनाएँगे।",
+    "emptySuggestion2": "टॉप, बॉटम, ड्रेस और जूते जोड़ें ताकि मिलान बेहतर हो।",
+    "emptySuggestion3": "एक साथ तीन स्टाइल विकल्पों के लिए स्टाइलिस्ट मोड आज़माएँ।",
+    "emptyHint": "ऊपर विकल्प चुनें और आउटफिट देखने के लिए बनाओ पर टैप करें।",
+    "dressReplacesBottom": "अलग नीचे नहीं — ऊपर ड्रेस है।",
+    "slots": {
+      "top": "टॉप",
+      "topDress": "ड्रेस",
+      "bottom": "बॉटम",
+      "footwear": "फुटवियर"
+    },
+    "occasions": {
+      "casual": "कैज़ुअल",
+      "party": "पार्टी",
+      "wedding": "शादी"
+    },
+    "weathers": {
+      "hot": "गर्म",
+      "cold": "ठंडा"
+    },
+    "stylistBadge": "स्टाइलिस्ट की पसंद",
+    "stylistHint": "आपकी अलमारी के लिए — नया लुक चाहें तो फिर जेनरेट करें।",
+    "standardMode": "स्टैंडर्ड",
+    "stylistMode": "स्टाइलिस्ट मोड",
+    "vibe": "वाइब",
+    "rationale": {
+      "title": "यह क्यों सही है",
+      "lead": "{{occasion}} और {{weather}} मौसम के लिए बनाया गया — मूड और आराम दोनों से मेल।",
+      "top": "{{typeLabel}} {{color}} रंग और {{style}} स्टाइल से लुक की शुरुआत होती है।",
+      "bottom": "नीचे {{color}} ({{style}}) पैलेट को संतुलित रखता है।",
+      "dressFlow": "ड्रेस पूरा लुक देती है — साफ लाइनें, एक ही में पूरा एलिगेंट लुक।",
+      "footwear": "{{color}} फुटवियर ({{style}}) आउटफिट पूरा करता है और रंग एकजुट रहते हैं।",
+      "balance": "रंग और स्टाइल जानबूझकर चुने गए ताकि सिर से पैर तक सुसंगत लगे।"
+    },
+    "like": "पसंद",
+    "dislike": "नापसंद",
+    "feedbackPrompt": "स्टाइलिस्ट को सिखाएँ — यह लुक कैसा लगा?",
+    "feedbackGroupLabel": "आउटफिट फीडबैक",
+    "shareOutfit": "आउटफिट शेयर करें",
+    "downloadOutfitImage": "इमेज डाउनलोड",
+    "sharePreparing": "तैयार हो रहा है…",
+    "shareFailed": "इमेज नहीं बन सकी। अगर फोटो दूसरी साइट से हैं, लोड होने के बाद फिर कोशिश करें।",
+    "shareSavedInstead": "यहाँ शेयर उपलब्ध नहीं — इमेज डाउनलोड कर दी गई।",
+    "sharePosterTitle": "आपका लुक",
+    "sharePosterFooter": "{{app}} के साथ बनाया गया",
+    "saveOutfit": "आउटफिट सहेजें"
+  },
+  "savedOutfits": {
+    "title": "सहेजे आउटफिट",
+    "subtitle": "जेनरेटर से बुकमार्क किए गए लुक।",
+    "empty": "अभी कोई सहेजा आउटफिट नहीं। लुक बनाएँ और आउटफिट सहेजें दबाएँ।",
+    "loadError": "सहेजे आउटफिट लोड नहीं हो सके।",
+    "delete": "हटाएँ"
+  },
+  "clothes": {
+    "uploadTitle": "अपलोड",
+    "uploadSubtitle": "इमेज URL से आइटम जोड़ें (फ़ाइल अपलोड बाद में)।",
+    "uploadAction": "अपलोड",
+    "imageUrl": "इमेज URL",
+    "type": "प्रकार",
+    "selectType": "प्रकार चुनें",
+    "color": "रंग",
+    "colorPlaceholder": "जैसे नेवी",
+    "style": "स्टाइल",
+    "stylePlaceholder": "जैसे कैज़ुअल",
+    "delete": "हटाएँ",
+    "deleteAria": "आइटम {{id}} हटाएँ",
+    "empty": "अभी कोई कपड़ा नहीं। पहला अपलोड करें।",
+    "imageUnavailable": "इमेज उपलब्ध नहीं",
+    "tagsLabel": "टैग",
+    "types": {
+      "top": "टॉप",
+      "bottom": "बॉटम",
+      "dress": "ड्रेस",
+      "outerwear": "आउटरवियर",
+      "footwear": "फुटवियर",
+      "accessory": "एक्सेसरी"
+    }
+  },
+  "validation": {
+    "required": "यह फ़ील्ड ज़रूरी है",
+    "email": "मान्य ईमेल दर्ज करें",
+    "passwordMin": "कम से कम 8 अक्षर",
+    "typeRequired": "प्रकार चुनें",
+    "typeInvalid": "गलत प्रकार"
+  },
+  "errors": {
+    "sessionExpired": "सत्र समाप्त। कृपया फिर लॉगिन करें।"
+  },
+  "admin": {
+    "title": "एडमिन",
+    "subtitle": "उपयोगकर्ता, विश्लेषण और सिस्टम नियंत्रण।",
+    "stats": {
+      "users": "कुल उपयोगकर्ता",
+      "outfits": "जनरेट आउटफिट",
+      "likeRate": "लाइक दर"
+    },
+    "usersHeading": "उपयोगकर्ता",
+    "usersCount": "{{total}} खाते",
+    "premium": "प्रीमियम",
+    "grantPremium": "प्रीमियम दें",
+    "removePremium": "प्रीमियम हटाएँ",
+    "mlHeading": "ML नियंत्रण",
+    "mlExploration": "एक्सप्लोरेशन दर (0–1)",
+    "mlWeight": "ML स्कोर वेट",
+    "saveMl": "ML सेटिंग सहेजें",
+    "flagsHeading": "फ़ीचर फ़्लैग",
+    "flagAiTagging": "अपलोड पर AI टैगिंग",
+    "flagStylist": "स्टाइलिस्ट मोड (असिस्टेंट + विकल्प)",
+    "toastPremiumUpdated": "प्रीमियम स्थिति अपडेट।",
+    "toastSettingsSaved": "ML सेटिंग सहेजी गईं।",
+    "toastFlagsUpdated": "फ़ीचर फ़्लैग अपडेट।",
+    "previewHeading": "लाइव आउटफिट पूर्वावलोकन",
+    "previewSubtitle": "वर्तमान ML सेटिंग के साथ आपके एडमिन वार्डरोब पर जनरेशन (विश्लेषण में गिनती नहीं)।",
+    "testOutfit": "आउटफिट टेस्ट करें",
+    "testingOutfit": "जनरेट हो रहा है…",
+    "ruleScore": "रूल स्कोर",
+    "mlScore": "ML स्कोर",
+    "previewWhy": "यह क्यों काम करता है",
+    "chartsLoading": "चार्ट लोड हो रहे हैं…",
+    "chartGenerationsTitle": "दैनिक आउटफिट जनरेशन",
+    "chartGenerationsHint": "पिछले 30 दिन (UTC)। केवल प्रोडक्शन जनरेशन की गिनती।",
+    "chartGenerationsSeries": "जनरेशन",
+    "chartLikeRateTitle": "दैनिक लाइक दर",
+    "chartLikeRateHint": "प्रतिदिन फीडबैक में लाइक का हिस्सा (पिछले 30 दिन, UTC)।",
+    "chartLikeRateSeries": "लाइक दर"
+  },
+  "toasts": {
+    "loggedIn": "वापसी पर स्वागत है!",
+    "signedUp": "खाता बन गया।",
+    "loggedOut": "लॉग आउट हो गए।",
+    "clothesCreated": "आइटम सहेजा गया।",
+    "clothesDeleted": "आइटम हटाया गया।",
+    "savedPreference": "आपकी पसंद सेव हो गई",
+    "outfitSaved": "आउटफिट सहेज लिया गया।",
+    "savedOutfitDeleted": "सहेजे आउटफिट से हटा दिया गया।",
+    "outfitLiked": "बढ़िया — अगली बार इसी मूड को प्राथमिकता देंगे।",
+    "outfitDisliked": "धन्यवाद — ऐसे मिलान से दूर रहेंगे।"
+  }
+}

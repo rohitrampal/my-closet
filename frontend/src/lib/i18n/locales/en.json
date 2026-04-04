@@ -1,0 +1,201 @@
+{
+  "app": {
+    "name": "Wardrobe"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "••••••••",
+    "loginSubtitle": "Sign in to manage your wardrobe.",
+    "signupSubtitle": "Create an account to get started."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "upload": "Upload",
+    "outfit": "Outfit",
+    "savedOutfits": "Saved outfits",
+    "admin": "Admin",
+    "logout": "Log out",
+    "mainNav": "Main navigation"
+  },
+  "common": {
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "loading": "Loading",
+    "cancel": "Cancel",
+    "retry": "Retry"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your saved clothes."
+  },
+  "outfit": {
+    "title": "Outfit generator",
+    "subtitle": "Pick occasion and weather, then build a look from your wardrobe.",
+    "occasion": "Occasion",
+    "weather": "Weather",
+    "generate": "Generate outfit",
+    "generateStylist": "Stylist options",
+    "tryAgain": "Try another outfit",
+    "whyWorks": "Why this works",
+    "emptyWardrobe": "Let's add a few clothes first — your future outfits depend on it 👗",
+    "uploadClothes": "Upload clothes",
+    "regeneratingHint": "Finding another combination…",
+    "regeneratingStyling": "Refreshing your looks…",
+    "generating": "Generating…",
+    "generatingHint": "This might actually surprise you 👀",
+    "stylingYourOutfit": "Styling your outfit…",
+    "matchConfidence": "{{percent}}% match",
+    "pickLabels": {
+      "minimal": "Best match",
+      "trendy": "Trying something new",
+      "bold": "Premium pick"
+    },
+    "recentlyGenerated": "Recently generated",
+    "recentlyGeneratedHint": "Tap a look to open it again with the same occasion and weather.",
+    "emptyStateTitle": "No outfit yet",
+    "emptySuggestion1": "Pick an occasion and weather, then tap Generate — we’ll build a look from your closet.",
+    "emptySuggestion2": "Add tops, bottoms, dresses, and shoes so the matcher has more to work with.",
+    "emptySuggestion3": "Try Stylist mode for three curated directions in one go.",
+    "emptyHint": "Choose options above and tap generate to see a suggested outfit.",
+    "dressReplacesBottom": "No separate bottom — your top is a dress.",
+    "slots": {
+      "top": "Top",
+      "topDress": "Dress",
+      "bottom": "Bottom",
+      "footwear": "Footwear"
+    },
+    "occasions": {
+      "casual": "Casual",
+      "party": "Party",
+      "wedding": "Wedding"
+    },
+    "weathers": {
+      "hot": "Hot",
+      "cold": "Cold"
+    },
+    "stylistBadge": "Stylist pick",
+    "stylistHint": "Curated for your closet — tweak with a new roll anytime.",
+    "standardMode": "Standard",
+    "stylistMode": "Stylist mode",
+    "vibe": "Vibe",
+    "rationale": {
+      "title": "Why this works",
+      "lead": "Built for {{occasion}} in {{weather}} weather: pieces align on mood and practicality.",
+      "top": "The {{typeLabel}} in {{color}} with a {{style}} feel sets the tone and silhouette.",
+      "bottom": "The bottom in {{color}} ({{style}}) balances the palette without competing.",
+      "dressFlow": "A dress carries the full look — clean lines, one-and-done elegance.",
+      "footwear": "{{color}} footwear ({{style}}) finishes the outfit and keeps the palette cohesive.",
+      "balance": "Colors and styles are chosen to read intentional from head to toe."
+    },
+    "like": "Like",
+    "dislike": "Dislike",
+    "feedbackPrompt": "Help your stylist learn — how does this look feel?",
+    "feedbackGroupLabel": "Outfit feedback",
+    "shareOutfit": "Share outfit",
+    "downloadOutfitImage": "Download image",
+    "sharePreparing": "Preparing…",
+    "shareFailed": "Could not create the image. If photos are from another site, try again after they load.",
+    "shareSavedInstead": "Sharing isn’t available here — your image was downloaded instead.",
+    "sharePosterTitle": "Your look",
+    "sharePosterFooter": "Made with {{app}}",
+    "saveOutfit": "Save outfit"
+  },
+  "savedOutfits": {
+    "title": "Saved outfits",
+    "subtitle": "Outfits you bookmarked from the generator.",
+    "empty": "No saved outfits yet. Generate a look and tap Save outfit.",
+    "loadError": "Could not load saved outfits.",
+    "delete": "Delete"
+  },
+  "clothes": {
+    "uploadTitle": "Upload",
+    "uploadSubtitle": "Add a piece using an image URL (file uploads can come later).",
+    "uploadAction": "Upload",
+    "imageUrl": "Image URL",
+    "type": "Type",
+    "selectType": "Select type",
+    "color": "Color",
+    "colorPlaceholder": "e.g. Navy",
+    "style": "Style",
+    "stylePlaceholder": "e.g. Casual",
+    "delete": "Delete",
+    "deleteAria": "Delete item {{id}}",
+    "empty": "No clothes yet. Upload your first piece.",
+    "imageUnavailable": "Image unavailable",
+    "tagsLabel": "Tags",
+    "types": {
+      "top": "Top",
+      "bottom": "Bottom",
+      "dress": "Dress",
+      "outerwear": "Outerwear",
+      "footwear": "Footwear",
+      "accessory": "Accessory"
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Enter a valid email",
+    "passwordMin": "Use at least 8 characters",
+    "typeRequired": "Choose a type",
+    "typeInvalid": "Invalid type"
+  },
+  "errors": {
+    "sessionExpired": "Your session expired. Please sign in again."
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Users, analytics, and system controls.",
+    "stats": {
+      "users": "Total users",
+      "outfits": "Outfits generated",
+      "likeRate": "Like rate"
+    },
+    "usersHeading": "Users",
+    "usersCount": "{{total}} accounts",
+    "premium": "Premium",
+    "grantPremium": "Grant premium",
+    "removePremium": "Remove premium",
+    "mlHeading": "ML controls",
+    "mlExploration": "Exploration rate (0–1)",
+    "mlWeight": "ML score weight",
+    "saveMl": "Save ML settings",
+    "flagsHeading": "Feature flags",
+    "flagAiTagging": "AI tagging on upload",
+    "flagStylist": "Stylist mode (assistant + options)",
+    "toastPremiumUpdated": "Premium status updated.",
+    "toastSettingsSaved": "ML settings saved.",
+    "toastFlagsUpdated": "Feature flags updated.",
+    "previewHeading": "Live outfit preview",
+    "previewSubtitle": "Runs generation against your admin wardrobe using current ML settings (not counted in analytics).",
+    "testOutfit": "Test outfit",
+    "testingOutfit": "Generating…",
+    "ruleScore": "Rule score",
+    "mlScore": "ML score",
+    "previewWhy": "Why this works",
+    "chartsLoading": "Loading charts…",
+    "chartGenerationsTitle": "Daily outfit generations",
+    "chartGenerationsHint": "Last 30 days (UTC). Counts from production generations only.",
+    "chartGenerationsSeries": "Generations",
+    "chartLikeRateTitle": "Daily like rate",
+    "chartLikeRateHint": "Share of likes among feedback submitted each day (last 30 days, UTC).",
+    "chartLikeRateSeries": "Like rate"
+  },
+  "toasts": {
+    "loggedIn": "Welcome back!",
+    "signedUp": "Account created.",
+    "loggedOut": "You are logged out.",
+    "clothesCreated": "Item saved.",
+    "clothesDeleted": "Item removed.",
+    "savedPreference": "Saved your preference",
+    "outfitSaved": "Outfit saved.",
+    "savedOutfitDeleted": "Removed from saved outfits.",
+    "outfitLiked": "Love it — we’ll lean into this vibe next time.",
+    "outfitDisliked": "Thanks — we’ll steer away from similar mixes."
+  }
+}
