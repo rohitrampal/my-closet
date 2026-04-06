@@ -3,7 +3,7 @@ import { NavigationBridge } from '@/components/system/NavigationBridge'
 
 export function RootLayout() {
   return (
-    <div className="min-h-dvh font-sans">
+    <div className="min-h-dvh bg-background font-sans text-foreground">
       <NavigationBridge />
       <Outlet />
     </div>

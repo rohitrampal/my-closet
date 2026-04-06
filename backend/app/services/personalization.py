@@ -16,11 +16,11 @@ from app.models.outfit_feedback import OutfitFeedback
 from app.models.user_preference import UserPreference
 
 # Applied in matcher: preferred normalized weight × this; disliked × DISLIKE_WEIGHT (stronger penalty).
-LIKE_WEIGHT = 2.0
-DISLIKE_WEIGHT = 3.0
+LIKE_WEIGHT = 2.85
+DISLIKE_WEIGHT = 4.75
 # Category maps are normalized the same way; matcher uses +1 / -1 scale on those weights.
-CATEGORY_LIKE_WEIGHT = 1.0
-CATEGORY_DISLIKE_WEIGHT = 1.0
+CATEGORY_LIKE_WEIGHT = 1.35
+CATEGORY_DISLIKE_WEIGHT = 1.85
 
 # (substrings in normalized style text, category label). First match wins.
 _STYLE_CATEGORY_RULES: tuple[tuple[tuple[str, ...], str], ...] = (

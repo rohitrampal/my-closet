@@ -1,14 +1,16 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'surface'
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-zinc-900 text-white shadow-sm hover:bg-zinc-800 focus-visible:ring-zinc-400 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white',
+    'btn-primary border border-transparent font-semibold shadow-soft focus-visible:outline-none disabled:pointer-events-none',
   secondary:
-    'bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-200 hover:bg-zinc-50 focus-visible:ring-zinc-400 dark:bg-zinc-900 dark:text-zinc-100 dark:ring-zinc-800 dark:hover:bg-zinc-800',
+    'btn-secondary border border-border bg-surface text-foreground shadow-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none',
   ghost:
-    'bg-transparent text-zinc-700 hover:bg-zinc-100 focus-visible:ring-zinc-400 dark:text-zinc-200 dark:hover:bg-zinc-900',
+    'btn-ghost border border-transparent bg-transparent text-muted hover:bg-surface hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none',
+  surface:
+    'btn-surface border border-border bg-surface/50 text-foreground hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:pointer-events-none',
 }
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -23,10 +25,15 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
+  const layout =
+    variant === 'surface'
+      ? 'inline-flex min-h-11 w-full flex-col items-stretch justify-start gap-2 text-left font-normal'
+      : 'inline-flex min-h-11 items-center justify-center text-center font-medium'
+
   return (
     <button
       type={type}
-      className={`inline-flex min-h-11 items-center justify-center rounded-[var(--radius-app)] px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-offset-zinc-950 ${variantClasses[variant]} ${className}`.trim()}
+      className={`${layout} rounded-[var(--radius-button)] px-5 py-3 text-sm transition-colors ${variantClasses[variant]} ${className}`.trim()}
       {...props}
     >
       {children}

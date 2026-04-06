@@ -1,5 +1,6 @@
 import { apiClient } from '@/lib/api/client'
 import type { OutfitGenerateApiResponse } from '@/lib/api/outfit'
+import { useUiStore } from '@/stores/useUiStore'
 
 export type AdminDashboardStats = {
   total_users: number
@@ -43,7 +44,10 @@ export async function fetchAdminUsers(params: {
   return data
 }
 
-export async function patchUserPremium(userId: number, is_premium: boolean): Promise<AdminUserRow> {
+export async function patchUserPremium(
+  userId: number,
+  is_premium: boolean
+): Promise<AdminUserRow> {
   const { data } = await apiClient.patch<AdminUserRow>(`/admin/users/${userId}/premium`, {
     is_premium,
   })
@@ -60,10 +64,24 @@ export type AdminAnalyticsResponse = {
   like_rate_trend: { date: string; rate: number }[]
 }
 
-export async function fetchAdminAnalytics(params?: { days?: number }): Promise<AdminAnalyticsResponse> {
+export async function fetchAdminAnalytics(params?: {
+  days?: number
+}): Promise<AdminAnalyticsResponse> {
   const { data } = await apiClient.get<AdminAnalyticsResponse>('/admin/analytics', {
     params: { days: params?.days ?? 30 },
   })
+  return data
+}
+
+export type AdminAnalyticsSummary = {
+  total_generates: number
+  total_upgrades_clicked: number
+  total_payments: number
+  conversion_rate: number
+}
+
+export async function fetchAdminAnalyticsSummary(): Promise<AdminAnalyticsSummary> {
+  const { data } = await apiClient.get<AdminAnalyticsSummary>('/admin/analytics-summary')
   return data
 }
 
@@ -71,13 +89,21 @@ export type AdminTestOutfitResponse = {
   outfit: OutfitGenerateApiResponse
   ml_score: number
   rule_score: number
+  score_debug?: Record<string, number | string> | null
 }
 
 export async function postAdminTestOutfit(body: {
   occasion: string
   weather: string
+  debug_scores?: boolean
+  language?: 'en' | 'hi'
 }): Promise<AdminTestOutfitResponse> {
-  const { data } = await apiClient.post<AdminTestOutfitResponse>('/admin/test-outfit', body)
+  const { data } = await apiClient.post<AdminTestOutfitResponse>('/admin/test-outfit', {
+    occasion: body.occasion,
+    weather: body.weather,
+    debug_scores: body.debug_scores ?? true,
+    language: body.language ?? useUiStore.getState().language,
+  })
   return data
 }
 

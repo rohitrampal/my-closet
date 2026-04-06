@@ -40,16 +40,38 @@ def _clip_vibe(s: str) -> str:
 def heuristic_parse_natural_query(text: str) -> ParsedNaturalOutfitQuery:
     """Keyword-based parse when the LLM is unavailable."""
     q = text.strip().lower()
-    if "wedding" in q or "bridal" in q:
+    if "wedding" in q or "bridal" in q or "शादी" in q or "विवाह" in q:
         occasion = Occasion.wedding
-    elif "party" in q or "night out" in q or "club" in q or "cocktail" in q:
+    elif (
+        "party" in q
+        or "night out" in q
+        or "club" in q
+        or "cocktail" in q
+        or "पार्टी" in q
+    ):
         occasion = Occasion.party
     else:
         occasion = Occasion.casual
 
-    if any(w in q for w in ("hot", "summer", "heat", "humid", "warm day", "scorching")):
+    if any(
+        w in q
+        for w in (
+            "hot",
+            "summer",
+            "heat",
+            "humid",
+            "warm day",
+            "scorching",
+            "गर्म",
+            "गर्मी",
+            "धूप",
+        )
+    ):
         weather: Weather | None = Weather.hot
-    elif any(w in q for w in ("cold", "winter", "freezing", "snow", "chilly", "frost")):
+    elif any(
+        w in q
+        for w in ("cold", "winter", "freezing", "snow", "chilly", "frost", "ठंड", "सर्दी")
+    ):
         weather = Weather.cold
     else:
         weather = None
@@ -188,15 +210,25 @@ async def llm_explain_outfit(
     footwear: Clothes,
     rule_reasons: list[str],
     settings: Settings,
+    *,
+    language: str = "en",
 ) -> str | None:
     key = (settings.OPENAI_API_KEY or "").strip()
     if not key:
         return None
     url = (settings.OPENAI_BASE_URL or "https://api.openai.com/v1").rstrip("/") + "/chat/completions"
-    system = (
-        "You are a concise fashion stylist. Explain in 2–4 short sentences why this outfit fits "
-        "the user's request. Mention concrete colors/styles from the data. No bullet lists or markdown."
-    )
+    lang = language if language in ("en", "hi") else "en"
+    if lang == "hi":
+        system = (
+            "आप एक संक्षिप्त फैशन स्टाइलिस्ट हैं। 2–4 छोटे वाक्यों में बताएं कि यह आउटफिट उपयोगकर्ता के "
+            "अनुरोध पर क्यों फिट बैठता है। डेटा से रंग और स्टाइल का संकेत दें। बुलेट या मार्कडाउन नहीं। "
+            "केवल हिंदी में लिखें।"
+        )
+    else:
+        system = (
+            "You are a concise fashion stylist. Explain in 2–4 short sentences why this outfit fits "
+            "the user's request. Mention concrete colors/styles from the data. No bullet lists or markdown."
+        )
     user_msg = (
         f"User request: {user_query.strip()[:_MAX_QUERY_LEN]}\n\n"
         f"Outfit:\n{_outfit_description(top, bottom, footwear)}\n\n"
@@ -226,7 +258,12 @@ async def llm_explain_outfit(
         return None
 
 
-def fallback_explanation(rule_reasons: list[str]) -> str:
+def fallback_explanation(rule_reasons: list[str], *, language: str = "en") -> str:
+    lang = language if language in ("en", "hi") else "en"
     if not rule_reasons:
+        if lang == "hi":
+            return (
+                "यह संयोजन आपके द्वारा बताए गए अवसर और संदर्भ के लिए आपके वार्डरोब नियमों का पालन करता है।"
+            )
         return "This combination follows your wardrobe rules for the occasion and context you described."
     return " ".join(rule_reasons)

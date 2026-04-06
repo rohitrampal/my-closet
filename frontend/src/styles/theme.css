@@ -1,0 +1,56 @@
+/**
+ * Global design tokens — premium dark luxury.
+ * Change values here to re-theme the entire app.
+ */
+:root {
+  --color-bg: #07060b;
+  --color-surface: #111018;
+  --color-surface-light: #1a1822;
+
+  --color-primary: #e6c2b3;
+  --color-primary-soft: #f3d5c8;
+
+  --color-accent: #d4a5ff;
+
+  --color-text: #f5f5f7;
+  --color-text-muted: #a1a1aa;
+
+  --color-danger: #e89393;
+  --color-danger-soft: color-mix(in srgb, var(--color-danger) 35%, transparent);
+  --color-warning: #d4a574;
+  --color-warning-soft: color-mix(in srgb, var(--color-warning) 22%, transparent);
+
+  --color-border: rgba(255, 255, 255, 0.08);
+
+  --gradient-primary: linear-gradient(135deg, #e6c2b3, #d4a5ff);
+
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 40px rgba(230, 194, 179, 0.25);
+
+  /* UI geometry — buttons 12px, cards 16px, inputs 10px */
+  --radius-button: 0.75rem;
+  --radius-card: 1rem;
+  --radius-input: 0.625rem;
+
+  /* Ambient glows (auth, landing) — no raw hex in components */
+  --glow-accent-strong: color-mix(in srgb, var(--color-accent) 24%, transparent);
+  --glow-accent-soft: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  --glow-primary-soft: color-mix(in srgb, var(--color-primary) 14%, transparent);
+
+  /* Charts (Recharts reads these via var() in stroke/fill) */
+  --chart-axis: var(--color-text-muted);
+  --chart-grid: color-mix(in srgb, var(--color-border) 80%, var(--color-surface-light));
+  --chart-line-primary: var(--color-text);
+  --chart-line-secondary: var(--color-accent);
+  --chart-tooltip-bg: color-mix(in srgb, var(--color-surface) 94%, black);
+  --chart-tooltip-border: var(--color-border);
+  --chart-tooltip-text: var(--color-text);
+}
+
+/* UI “light” toggle: slightly lifted surfaces, same rose-gold accents */
+html:not(.dark) {
+  --color-bg: #12111a;
+  --color-surface: #181622;
+  --color-surface-light: #22212c;
+  --color-text-muted: #8b8b96;
+}

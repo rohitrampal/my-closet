@@ -81,3 +81,30 @@ async def get_current_admin(current_user: CurrentUser) -> User:
 
 
 CurrentAdmin = Annotated[User, Depends(get_current_admin)]
+
+
+async def get_optional_current_user(
+    db: DbSession,
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer_scheme)],
+) -> User | None:
+    """Like ``get_current_user`` but returns ``None`` if missing or invalid token (for optional auth)."""
+    if credentials is None or credentials.scheme.lower() != "bearer":
+        return None
+    try:
+        payload = decode_access_token(credentials.credentials)
+    except JWTError:
+        return None
+    if payload.get("type") != "access":
+        return None
+    sub = payload.get("sub")
+    if sub is None:
+        return None
+    try:
+        user_id = int(sub)
+    except (TypeError, ValueError):
+        return None
+    result = await db.execute(select(User).where(User.id == user_id))
+    return result.scalar_one_or_none()
+
+
+OptionalCurrentUser = Annotated[User | None, Depends(get_optional_current_user)]

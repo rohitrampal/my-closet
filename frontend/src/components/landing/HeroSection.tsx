@@ -1,30 +1,33 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GlassCard } from '@/components/landing/GlassCard'
-import { LANDING_PRIMARY_CTA } from '@/components/landing/landingCopy'
 import { LandingCtaLink } from '@/components/landing/LandingCtaLink'
 import { TiltCard } from '@/components/landing/TiltCard'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 function HeroOutfitCard() {
+  const { t } = useTranslation()
   return (
-    <GlassCard className="overflow-hidden p-0">
-      <div className="border-b border-white/10 px-4 py-2.5">
+    <GlassCard padding="none" className="overflow-hidden">
+      <div className="border-b border-border px-4 py-2.5">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-fuchsia-300/90">
-          Your look · preview
+          {t('landing.heroCardBadge')}
         </p>
       </div>
-      <div className="divide-y divide-white/10">
+      <div className="divide-y divide-border">
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
           <div
             className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-rose-400/45 to-fuchsia-600/35"
             aria-hidden
           />
           <div className="min-w-0 text-left">
-            <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
-              Top
+            <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
+              {t('outfit.slots.top')}
             </p>
-            <p className="truncate text-base font-semibold text-white">Merino crew</p>
+            <p className="truncate text-base font-semibold text-foreground">
+              {t('landing.heroDemoTop')}
+            </p>
           </div>
         </div>
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
@@ -33,24 +36,26 @@ function HeroOutfitCard() {
             aria-hidden
           />
           <div className="min-w-0 text-left">
-            <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
-              Bottom
+            <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
+              {t('outfit.slots.bottom')}
             </p>
-            <p className="truncate text-base font-semibold text-white">
-              Wide pleat trousers
+            <p className="truncate text-base font-semibold text-foreground">
+              {t('landing.heroDemoBottom')}
             </p>
           </div>
         </div>
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
           <div
-            className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-zinc-600 to-zinc-800"
+            className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-surface-light to-background"
             aria-hidden
           />
           <div className="min-w-0 text-left">
-            <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
-              Footwear
+            <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
+              {t('outfit.slots.footwear')}
             </p>
-            <p className="truncate text-base font-semibold text-white">Leather loafer</p>
+            <p className="truncate text-base font-semibold text-foreground">
+              {t('landing.heroDemoFootwear')}
+            </p>
           </div>
         </div>
       </div>
@@ -59,6 +64,7 @@ function HeroOutfitCard() {
 }
 
 export function HeroSection() {
+  const { t } = useTranslation()
   const reduce = useReducedMotion()
   const isLg = useMediaQuery('(min-width: 1024px)')
   const ref = useRef<HTMLElement>(null)
@@ -96,30 +102,26 @@ export function HeroSection() {
           style={{ opacity: opacityHero }}
         >
           <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-fuchsia-300/85 sm:text-xs">
-            Pauua
+            {t('landing.heroEyebrow')}
           </p>
-          <h1 className="font-display mt-3 max-w-xl text-[1.65rem] font-bold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl lg:max-w-lg lg:text-[2.75rem] lg:leading-[1.12]">
-            You already have great clothes.
+          <h1 className="font-display mt-3 max-w-xl text-[1.65rem] font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:max-w-lg lg:text-[2.75rem] lg:leading-[1.12]">
+            {t('landing.heroTitle1')}
             <span className="mt-2 block bg-gradient-to-r from-pink-300 via-fuchsia-200 to-violet-300 bg-clip-text text-transparent">
-              You just don&apos;t know what to wear.
+              {t('landing.heroTitle2')}
             </span>
           </h1>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-400 sm:text-base">
-            <span className="block">Let your AI stylist decide in seconds.</span>
-            <span className="mt-1 block">
-              No more outfit stress. No more overthinking.
-            </span>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted sm:text-base">
+            <span className="block">{t('landing.heroSub1')}</span>
+            <span className="mt-1 block">{t('landing.heroSub2')}</span>
           </p>
 
           <div className="mt-8 hidden w-full max-w-md flex-col gap-3 lg:flex">
-            <LandingCtaLink className="w-full sm:w-auto">
-              {LANDING_PRIMARY_CTA}
-            </LandingCtaLink>
+            <LandingCtaLink className="w-full sm:w-auto" />
             <a
               href="#how-it-works"
               className="inline-flex min-h-11 items-center justify-center text-sm font-medium text-fuchsia-300/85 transition-colors hover:text-fuchsia-200 lg:justify-start"
             >
-              ↓ See how it works
+              {t('landing.heroHowItWorks')}
             </a>
           </div>
         </motion.div>
@@ -141,12 +143,12 @@ export function HeroSection() {
         </div>
 
         <div className="flex w-full flex-col gap-2 lg:hidden">
-          <LandingCtaLink className="w-full">{LANDING_PRIMARY_CTA}</LandingCtaLink>
+          <LandingCtaLink className="w-full" />
           <a
             href="#how-it-works"
             className="inline-flex min-h-11 w-full items-center justify-center text-sm font-medium text-fuchsia-300/85 transition-colors hover:text-fuchsia-200"
           >
-            ↓ See how it works
+            {t('landing.heroHowItWorks')}
           </a>
         </div>
       </div>
@@ -158,7 +160,7 @@ export function HeroSection() {
         transition={{ delay: 1, duration: 0.5 }}
         aria-hidden
       >
-        <div className="flex h-9 w-5 justify-center rounded-full border border-white/20 pt-1.5">
+        <div className="flex h-9 w-5 justify-center rounded-full border border-border pt-1.5">
           <motion.div
             className="h-1 w-1 rounded-full bg-fuchsia-400/80"
             animate={reduce ? {} : { y: [0, 8, 0] }}

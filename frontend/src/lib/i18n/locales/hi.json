@@ -1,6 +1,8 @@
 {
   "app": {
-    "name": "वार्डरोब"
+    "name": "My Closet",
+    "documentTitle": "My Closet — आपका AI स्टाइलिस्ट",
+    "metaDescription": "आपके अपने कपड़ों से आउटफिट चुनने में मदद करने वाला AI स्टाइलिस्ट।"
   },
   "auth": {
     "login": "लॉगिन",
@@ -10,7 +12,23 @@
     "emailPlaceholder": "aap@example.com",
     "passwordPlaceholder": "••••••••",
     "loginSubtitle": "वार्डरोब प्रबंधन के लिए साइन इन करें।",
-    "signupSubtitle": "शुरू करने के लिए खाता बनाएँ।"
+    "signupSubtitle": "शुरू करने के लिए खाता बनाएँ।",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "forgotTitle": "पासवर्ड भूल गए",
+    "forgotSubtitle": "अपना ईमेल दर्ज करें। खाता मिलने पर रीसेट निर्देश भेजे जाएँगे।",
+    "forgotSubmit": "रीसेट लिंक भेजें",
+    "forgotToast": "यदि यह ईमेल पंजीकृत है, तो अगले चरणों के लिए इनबॉक्स देखें।",
+    "resetTitle": "पासवर्ड रीसेट",
+    "resetSubtitle": "अपने खाते के लिए नया पासवर्ड चुनें।",
+    "resetSubmit": "पासवर्ड अपडेट करें",
+    "resetToast": "पासवर्ड सहेजा गया। नए पासवर्ड से साइन इन करें।",
+    "resetMissingToken": "इस पेज के लिए ईमेल वाला लिंक ज़रूरी है। इनबॉक्स से रीसेट लिंक खोलें या नया अनुरोध करें।",
+    "resetPasswordMismatch": "पासवर्ड मेल खाने चाहिए।",
+    "newPassword": "नया पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "backToLogin": "लॉगिन पर वापस",
+    "showPassword": "पासवर्ड दिखाएँ",
+    "hidePassword": "पासवर्ड छिपाएँ"
   },
   "nav": {
     "dashboard": "डैशबोर्ड",
@@ -21,22 +39,70 @@
     "logout": "लॉग आउट",
     "mainNav": "मुख्य नेविगेशन"
   },
+  "splash": {
+    "loading": "आपकी स्टाइल लोड हो रही है...",
+    "aria": "ऐप लोड हो रहा है",
+    "logoAlt": "My Closet लोगो"
+  },
   "common": {
     "language": "भाषा",
-    "theme": "थीम",
-    "light": "लाइट",
-    "dark": "डार्क",
     "loading": "लोड हो रहा है",
     "cancel": "रद्द करें",
-    "retry": "फिर कोशिश करें"
+    "retry": "फिर कोशिश करें",
+    "emDash": "—"
+  },
+  "onboarding": {
+    "welcomeTitle": "My Closet में आपका स्वागत है 💖",
+    "step1": "3–5 कपड़े जोड़ें",
+    "step2": "अपना पहला आउटफिट बनाएँ",
+    "cta": "स्टाइल शुरू करें →"
   },
   "dashboard": {
     "title": "डैशबोर्ड",
-    "subtitle": "आपके सहेजे गए कपड़े।"
+    "subtitle": "आपके सहेजे गए कपड़े।",
+    "emptyTitle": "आपका क्लोज़ेट खाली है 👗",
+    "emptySubtitle": "अपना पहला आउटफिट जोड़ें"
+  },
+  "premium": {
+    "title": "My Closet प्रीमियम",
+    "subtitle": "बेहतर मिलान, असीमित जेनरेशन, और पूरा स्टाइलिस्ट अनुभव।",
+    "perk1": "हर दिन असीमित आउटफिट जेनरेशन",
+    "perk2": "पूरा स्टाइलिस्ट मोड — एक साथ तीन क्यूरेटेड दिशाएँ",
+    "perk3": "मज़बूत पर्सनलाइज़ेशन और ML रैंकिंग (बिना यादृच्छिक एक्सप्लोर)",
+    "alreadyActive": "आपके खाते पर प्रीमियम सक्रिय है।",
+    "howToUpgrade": "UPI, कार्ड या नेट बैंकिंग से सुरक्षित भुगतान। भुगतान के तुरंत बाद अपग्रेड।",
+    "unlockCta": "असीमित आउटफिट अनलॉक करें ✨",
+    "priceMonthly": "₹{{price}}/महीना",
+    "priceLoading": "कीमत लोड हो रही है…",
+    "priceUnavailable": "कीमत उपलब्ध नहीं",
+    "socialProof": "हर दिन होशियार स्टाइलिंग करने वाले यूज़र्स से जुड़ें 💖",
+    "welcomeBannerLine1": "अब आप प्रीमियम पर हैं ✨",
+    "welcomeBannerLine2": "बेहतर स्टाइलिंग का आनंद लें",
+    "welcomeBannerDismiss": "समझ गए",
+    "backToOutfits": "आउटफिट जेनरेटर पर वापस",
+    "upgradeLegalPrefix": "अपग्रेड करके आप हमारी ",
+    "upgradeLegalAnd": " और ",
+    "upgradeLegalSuffix": " से सहमत हैं।",
+    "compare": {
+      "title": "अंतर देखें",
+      "freeLabel": "मुफ़्त",
+      "premiumLabel": "प्रीमियम ✨",
+      "freePoint1": "प्रतिदिन सीमित आउटफिट",
+      "freePoint2": "कुछ यादृच्छिकता",
+      "freePoint3": "बुनियादी स्टाइलिंग",
+      "premiumPoint1": "असीमित आउटफिट",
+      "premiumPoint2": "सबसे अच्छा मिलान चयन",
+      "premiumPoint3": "उन्नत स्टाइलिस्ट मोड"
+    }
   },
   "outfit": {
     "title": "आउटफिट जेनरेटर",
     "subtitle": "अवसर और मौसम चुनें, फिर अपने वार्डरोब से लुक बनाएँ।",
+    "emptyUnlock": "आउटफिट अनलॉक करने के लिए कुछ कपड़े जोड़ें ✨",
+    "firstOutfitHeadline": "यह रहा आपका पहला आउटफिट ✨",
+    "firstOutfitLoadingTitle": "आपका पहला आउटफिट बन रहा है ✨",
+    "firstOutfitLoadingSubtext": "यह आपको चौंका भी सकता है 👀",
+    "firstOutfitRetention": "और कपड़े जोड़ें ताकि आउटफिट और बेहतर हों 💖",
     "occasion": "अवसर",
     "weather": "मौसम",
     "generate": "आउटफिट बनाओ",
@@ -80,6 +146,21 @@
       "cold": "ठंडा"
     },
     "stylistBadge": "स्टाइलिस्ट की पसंद",
+    "premiumMatchBadge": "✨ प्रीमियम मिलान",
+    "generationsToday": "आज {{limit}} में से {{used}} मुफ़्त जेनरेशन",
+    "premiumUnlimited": "प्रीमियम: असीमित जेनरेशन",
+    "stylistFreePreview": "मुफ़्त झलक: एक क्यूरेटेड लुक। प्रीमियम से तीनों स्टाइलिस्ट विकल्प मिलते हैं।",
+    "dailyLimitTitle": "आप अपनी दैनिक सीमा तक पहुँच गए",
+    "dailyLimitBody": "कल फिर आएँ या असीमित जेनरेशन के लिए प्रीमियम अपग्रेड करें।",
+    "dailyLimitBanner": "आज के सभी मुफ़्त जेनरेशन उपयोग हो चुके। असीमित पहुँच के लिए प्रीमियम अपग्रेड करें।",
+    "dailyLimitModalTitle": "आज के सभी मुफ़्त आउटफिट खत्म हो गए 😔",
+    "dailyLimitModalSubtitle": "असीमित स्टाइलिंग और बेहतर मिलान अनलॉक करें ✨",
+    "dailyLimitModalUpgrade": "असीमित आउटफिट अनलॉक करें ✨",
+    "dailyLimitModalTomorrow": "कल फिर कोशिश करें",
+    "premiumFirstWow": "✨ यह आपका प्रीमियम-स्टाइल्ड आउटफिट है",
+    "premiumLockedTitle": "एक और स्टाइल दिशा",
+    "premiumLockedSubtitle": "प्रीमियम में हर रोल पर तीन क्यूरेटेड आउटफिट विकल्प मिलते हैं।",
+    "upgradeToPremium": "असीमित आउटफिट अनलॉक करें ✨",
     "stylistHint": "आपकी अलमारी के लिए — नया लुक चाहें तो फिर जेनरेट करें।",
     "standardMode": "स्टैंडर्ड",
     "stylistMode": "स्टाइलिस्ट मोड",
@@ -115,8 +196,51 @@
   },
   "clothes": {
     "uploadTitle": "अपलोड",
-    "uploadSubtitle": "इमेज URL से आइटम जोड़ें (फ़ाइल अपलोड बाद में)।",
-    "uploadAction": "अपलोड",
+    "uploadSubtitle": "फ़ोटो से प्रकार, रंग और स्टाइल सुझाएँगे।\nपुष्टि करें या बदलें — सिर्फ़ आपकी मंज़ूरी के बाद सेव ✨",
+    "uploadAction": "क्लोज़ेट में जोड़ें",
+    "photoAlt": "कपड़े की फ़ोटो",
+    "uploadPhotoLabel": "फ़ोटो",
+    "uploadDropHint": "फ़ोटो यहाँ खींचें, या नीचे बटन चुनें",
+    "uploadPickGallery": "गैलरी से चुनें",
+    "uploadUseCamera": "फ़ोटो लें",
+    "uploadChangePhoto": "हटाएँ और दूसरी चुनें",
+    "uploadPreparing": "फ़ोटो तैयार की जा रही है…",
+    "uploadAnalyzing": "प्रकार, रंग और स्टाइल पहचान रहे हैं…",
+    "uploadAnalyzingOutfit": "आपका आउटफिट विश्लेषण हो रहा है...",
+    "uploadDetectedPrefix": "पहचाना:",
+    "uploadDetectedConfidence": "पहचान ({{pct}}% भरोसा)",
+    "uploadWeDetected": "हमने पहचाना:",
+    "uploadRetryAi": "AI से फिर कोशिश करें 🔁",
+    "uploadConfirm": "पुष्टि करें",
+    "uploadEdit": "संपादित करें",
+    "uploadSaveToCloset": "क्लोज़ेट में सहेजें",
+    "uploadDetailsSection": "विवरण",
+    "uploadSavedToCloset": "आपके क्लोज़ेट में जोड़ दिया गया",
+    "uploadSaveNeedsFields": "सहेजने से पहले प्रकार, रंग और स्टाइल भरें।",
+    "uploadAnalyzeSourceGemini": "Google AI से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAnalyzeSourceOpenAI": "OpenAI विज़न से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAnalyzeSourceGroq": "Groq विज़न से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAnalyzeSourceHuggingFace": "Hugging Face विज़न से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAnalyzeSourceSarvam": "Sarvam AI से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAnalyzeSourceFallback": "ऑन-डिवाइस विश्लेषण से सुझाव (आप फिर भी बदल सकते हैं)।",
+    "uploadAddMore": "और फ़ोटो जोड़ें",
+    "uploadMaxItems": "एक साथ अधिकतम {{max}} फ़ोटो।",
+    "uploadRemoveSlot": "हटाएँ",
+    "uploadSubmitting": "सहेजा जा रहा है…",
+    "firstUploadBanner": "पहला आउटफिट पाने के लिए 3–5 कपड़े जोड़ें ✨",
+    "styleOther": "अन्य स्टाइल",
+    "styleOtherPlaceholder": "कस्टम स्टाइल लिखें",
+    "styleChips": {
+      "casual": "कैज़ुअल",
+      "formal": "फ़ॉर्मल",
+      "sporty": "स्पोर्टी",
+      "party": "पार्टी",
+      "ethnic": "एथनिक"
+    },
+    "uploadDetailsOptional": "विवरण (वैकल्पिक — बदल सकते हैं)",
+    "selectTypeOptional": "AI चुनने दें",
+    "uploadInvalidType": "कृपया एक इमेज फ़ाइल चुनें।",
+    "uploadCompressFailed": "यह इमेज प्रोसेस नहीं हो सकी। दूसरी आज़माएँ।",
     "imageUrl": "इमेज URL",
     "type": "प्रकार",
     "selectType": "प्रकार चुनें",
@@ -142,11 +266,19 @@
     "required": "यह फ़ील्ड ज़रूरी है",
     "email": "मान्य ईमेल दर्ज करें",
     "passwordMin": "कम से कम 8 अक्षर",
+    "passwordStrength": "कम से कम एक अक्षर और एक अंक शामिल करें",
     "typeRequired": "प्रकार चुनें",
     "typeInvalid": "गलत प्रकार"
   },
   "errors": {
-    "sessionExpired": "सत्र समाप्त। कृपया फिर लॉगिन करें।"
+    "sessionExpired": "सत्र समाप्त। कृपया फिर लॉगिन करें।",
+    "generic": "कुछ गड़बड़ हो गई। एक बार फिर कोशिश करें।",
+    "requestFailed": "रिक्वेस्ट पूरी नहीं हुई। दोबारा कोशिश करें।",
+    "internalError": "हमारी तरफ़ से समस्या आई। थोड़ी देर बाद फिर कोशिश करें।",
+    "emailAlreadyRegistered": "इस ईमेल से पहले से खाता मौजूद है।",
+    "invalidCredentials": "ईमेल या पासवर्ड गलत है।",
+    "invalidResetToken": "यह रीसेट लिंक अमान्य या समाप्त है। लॉगिन पेज से नया अनुरोध करें।",
+    "validationFailed": "कृपया जानचें और फिर कोशिश करें।"
   },
   "admin": {
     "title": "एडमिन",
@@ -156,7 +288,15 @@
       "outfits": "जनरेट आउटफिट",
       "likeRate": "लाइक दर"
     },
+    "productAnalytics": {
+      "heading": "क्लाइंट-ट्रैक फ़नल",
+      "generates": "सफल आउटफिट जनरेशन",
+      "upgradeClicks": "अपग्रेड क्लिक",
+      "payments": "सफल भुगतान",
+      "conversion": "भुगतान / अपग्रेड क्लिक दर"
+    },
     "usersHeading": "उपयोगकर्ता",
+    "columnId": "आईडी",
     "usersCount": "{{total}} खाते",
     "premium": "प्रीमियम",
     "grantPremium": "प्रीमियम दें",
@@ -176,6 +316,7 @@
     "testOutfit": "आउटफिट टेस्ट करें",
     "testingOutfit": "जनरेट हो रहा है…",
     "ruleScore": "रूल स्कोर",
+    "scoreDebug": "मैचर डायग्नोस्टिक्स",
     "mlScore": "ML स्कोर",
     "previewWhy": "यह क्यों काम करता है",
     "chartsLoading": "चार्ट लोड हो रहे हैं…",
@@ -186,16 +327,186 @@
     "chartLikeRateHint": "प्रतिदिन फीडबैक में लाइक का हिस्सा (पिछले 30 दिन, UTC)।",
     "chartLikeRateSeries": "लाइक दर"
   },
+  "landing": {
+    "primaryCta": "10 सेकंड में पहला आउटफिट आज़माएँ",
+    "navAria": "मुख्य",
+    "navAppName": "My Closet",
+    "navLogin": "लॉग इन",
+    "stickyCtaAria": "शुरू करें",
+    "heroEyebrow": "My Closet — आपका AI स्टाइलिस्ट",
+    "heroTitle1": "आपके पास पहले से ही अच्छे कपड़े हैं।",
+    "heroTitle2": "बस पहनना क्या है, पता नहीं चलता।",
+    "heroSub1": "AI स्टाइलिस्ट से सेकंडों में फैसला लें।",
+    "heroSub2": "अब आउटफिट का तनाव नहीं, ज़्यादा सोचना नहीं।",
+    "heroHowItWorks": "↓ देखें कैसे काम करता है",
+    "heroCardBadge": "आपका लुक · झलक",
+    "heroDemoTop": "मेरिनो क्रू",
+    "heroDemoBottom": "चौड़ी प्लीट पैंट",
+    "heroDemoFootwear": "चमड़े का लोफ़र",
+    "featuresEyebrow": "फ़ीचर",
+    "featuresTitle": "जो चाहिए वो सब",
+    "featuresSubtitle": "पूरी तरह इंसानों के अनुकूल।",
+    "features": {
+      "f1": {
+        "title": "जानता है क्या साथ चलेगा",
+        "body": "अब अंदाज़ा नहीं — रंग और कट क्लैश तो नहीं, पता चल जाएगा।"
+      },
+      "f2": {
+        "title": "आपकी स्टाइल याद रखता है",
+        "body": "आपकी पसंद बनी रहती है — सुझाव आप जैसे लगें।"
+      },
+      "f3": {
+        "title": "हर बार बेहतर",
+        "body": "जितना इस्तेमाल, उतना सटीक।"
+      },
+      "f4": {
+        "title": "एक जैसे लुक से बचाता है",
+        "body": "ताज़े कॉम्बो — फंसकर नहीं रहेंगे।"
+      },
+      "f5": {
+        "title": "आपका मूड समझता है",
+        "body": "आराम से शार्प तक — जो चाहें वो पढ़ लेता है।"
+      },
+      "f6": {
+        "title": "मूड के हिसाब से ढलता है",
+        "body": "छोटा दिन या बड़ा दिन — जहाँ हैं वहीं मिलता है।"
+      }
+    },
+    "premiumEyebrow": "My Closet प्रीमियम",
+    "premiumTitle": "और भी बेहतर आउटफिट चाहिए?",
+    "premiumSub1": "स्मार्ट स्टाइलिंग, गहरी पर्सनलाइज़ेशन,",
+    "premiumSub2": "और ऐसे लुक जो सही लगें।",
+    "premiumSimplePricing": "सीधा मूल्य",
+    "premiumPrice": "$12",
+    "premiumPerMonth": "/माह",
+    "premiumEarlyAccess": "अर्ली एक्सेस",
+    "premiumPerk1": "असीमित AI आउटफिट जनरेशन",
+    "premiumPerk2": "सीज़नल कैप्सूल ड्रॉप्स को प्राथमिकता",
+    "premiumPerk3": "एडवांस पैलेट और फिट ट्यूनिंग",
+    "premiumPerk4": "टेम्पलेट और मूडबोर्ड शेयर",
+    "premiumCancelNote": "कभी भी रद्द · कोई छिपी फीस नहीं",
+    "finalEyebrow": "जो आउटफिट चुनना नहीं चाहते, उनके लिए",
+    "finalTitle": "कम सोचें। बस तैयार हो जाएँ।",
+    "finalSub": "अगला आउटफिट पहले से इंतज़ार में है।",
+    "finalHasAccess": "मेरे पास पहले से एक्सेस है",
+    "footerMade": "My Closet से बनाया गया",
+    "footerHow": "यह कैसे काम करता है",
+    "footerLogin": "लॉग इन",
+    "footerSignup": "साइन अप",
+    "demo": {
+      "eyebrow": "लाइव झलक",
+      "title": "देखिए आपका क्लोज़ेट असल में क्या कर सकता है",
+      "sub1": "ये लुक आपके अपने कपड़ों से बनते हैं।",
+      "sub2": "नई खरीदारी नहीं — बस स्मार्ट जोड़।",
+      "fromPieces": "जो आपके पास है, उसी से",
+      "outfitMoodAria": "{{name}} — लुक का मूड",
+      "o1": {
+        "name": "गैलरी नाइट",
+        "tag": "शाम",
+        "piece1": "ड्रेप ब्लेज़र",
+        "piece2": "सिल्क स्लिप",
+        "piece3": "स्ट्रैपी हील"
+      },
+      "o2": {
+        "name": "मंडे फोकस",
+        "tag": "ऑफ़िस",
+        "piece1": "टेलर्ड ट्राउज़र",
+        "piece2": "फाइन निट",
+        "piece3": "लोफ़र"
+      },
+      "o3": {
+        "name": "संडे स्लो",
+        "tag": "आराम",
+        "piece1": "ओवरसाइज़ कोट",
+        "piece2": "वाइड डेनिम",
+        "piece3": "ट्रेनर"
+      }
+    },
+    "howItWorks": {
+      "eyebrow": "कैसे काम करता है",
+      "title": "तीन आसान स्टेप",
+      "subtitle": "बिना घंटों स्क्रॉल किए। पहले क्लोज़ेट एक लाइव मूडबोर्ड बन जाता है — फिर AI जोड़ लेता है।",
+      "stepLabel": "चरण {{n}}",
+      "s1": {
+        "title": "क्लोज़ेट डिजिटल करें",
+        "body": "फोटो लें या अपलोड करें। हम आपकी पैलेट, फिट और पसंद समझने लगते हैं।"
+      },
+      "s2": {
+        "title": "मूड सेट करें",
+        "body": "ब्रंच हो या बोर्डरूम — मौका और मौसम दोनों मैच करते हैं।"
+      },
+      "s3": {
+        "title": "लुक पहनें",
+        "body": "क्यों फिट बैठता है, समझ आता है। सेव, ट्वीक, शेयर — एक टैप में।"
+      }
+    },
+    "socialProof": {
+      "title": "लोग सच में इसे पसंद कर रहे हैं",
+      "fiveStars": "⭐⭐⭐⭐⭐",
+      "q1": "पहले बीस मिनट कपड़ों को घूरती रहती थी… अब सीधे बता देता है क्या पहनूँ 😭",
+      "q2": "ऐसा लगता है जैसे फोन में कोई परसनल स्टाइलिस्ट बैठा हो",
+      "q3": "इसके बाद पता चला मेरे आउटफिट चॉइस कितने ठीक नहीं थे 💀"
+    },
+    "beforeAfter": {
+      "title1": "“पहनने को कुछ नहीं” से",
+      "title2": "“बिल्कुल सही लग रहा है” तक",
+      "beforeLabel": "पहले",
+      "beforeTitle": "जैसे पहनती थी",
+      "beforeLine1": "ज़्यादा सोचना।",
+      "beforeLine2": "रैंडम जोड़।",
+      "beforeLine3": "फिर भी मन नहीं भरता।",
+      "afterLabel": "अब",
+      "afterTitle": "AI ने स्टाइल किया लुक",
+      "afterLine1": "तुरंत लुक।",
+      "afterLine2": "आपकी स्टाइल से मेल।",
+      "afterLine3": "हर बार सही फील।"
+    }
+  },
+  "legal": {
+    "terms": "नियम",
+    "privacy": "गोपनीयता",
+    "refunds": "रिफंड",
+    "contact": "संपर्क",
+    "footerAria": "कानूनी व संपर्क लिंक",
+    "backHome": "होम",
+    "lastUpdated": "अंतिम अपडेट: {{date}}",
+    "hindiNotice": "कानूनी पाठ सटीकता के लिए अंग्रेज़ी में दिया गया है।",
+    "termsTitle": "उपयोग की शर्तें",
+    "privacyTitle": "गोपनीयता नीति",
+    "refundsTitle": "रिफंड व रद्दीकरण नीति",
+    "contactTitle": "संपर्क",
+    "contactIntro": "माय क्लोज़ेट से जुड़े सहायता, बिलिंग और कानूनी नोटिस के लिए नीचे दी गई जानकारी का उपयोग करें।",
+    "contactProduct": "उत्पाद",
+    "contactSupportHeading": "ग्राहक सहायता",
+    "contactEmailLabel": "ईमेल",
+    "contactNoEmail": "ग्राहकों तक पहुँच के लिए अपने फ्रंटएंड वातावरण में VITE_PUBLIC_SUPPORT_EMAIL जोड़ें। तब तक, जहाँ उपलब्ध हो इन-ऐप विकल्पों का उपयोग करें।",
+    "contactLegalHeading": "कानूनी इकाई व पता",
+    "contactLegalBody": "लाइव जाने से पहले इस खंड को अपने पंजीकृत व्यवसाय नाम, पते और लागू होने पर GST विवरण से बदलें। रेज़रपे और नियामक आमतौर पर आपकी साइट पर पहुँच योग्य व्यवसाय पहचान अपेक्षा करते हैं।",
+    "contactPaymentsHeading": "भुगतान संबंधी समस्याएँ",
+    "contactPaymentsBody": "असफल शुल्क या रसीद संबंधी प्रश्नों के लिए अपना खाता ईमेल और लेनदेन संदर्भ भेजें। भुगतान प्रसंस्करण हमारे भुगतान साझेदार द्वारा किया जाता है; चेकआउट के बाद दिखाई देने वाला कोई ऑर्डर या भुगतान ID शामिल करें।",
+    "contactFormIntro": "नीचे संदेश भेजें; हम ईमेल से जवाब देंगे।",
+    "contactFormName": "नाम",
+    "contactFormEmail": "आपका ईमेल",
+    "contactFormMessage": "संदेश",
+    "contactFormSubmit": "संदेश भेजें",
+    "contactFormSubmitting": "भेजा जा रहा है…"
+  },
   "toasts": {
     "loggedIn": "वापसी पर स्वागत है!",
     "signedUp": "खाता बन गया।",
     "loggedOut": "लॉग आउट हो गए।",
-    "clothesCreated": "आइटम सहेजा गया।",
+    "clothesCreated": "आपके क्लोज़ेट में जोड़ दिया 💖",
+    "clothesCreatedBatch": "{{count}} आइटम क्लोज़ेट में जोड़े 💖",
     "clothesDeleted": "आइटम हटाया गया।",
     "savedPreference": "आपकी पसंद सेव हो गई",
     "outfitSaved": "आउटफिट सहेज लिया गया।",
     "savedOutfitDeleted": "सहेजे आउटफिट से हटा दिया गया।",
     "outfitLiked": "बढ़िया — अगली बार इसी मूड को प्राथमिकता देंगे।",
-    "outfitDisliked": "धन्यवाद — ऐसे मिलान से दूर रहेंगे।"
+    "outfitDisliked": "धन्यवाद — ऐसे मिलान से दूर रहेंगे।",
+    "premiumPaymentSuccess": "प्रीमियम में आपका स्वागत है ✨",
+    "contactSent": "संदेश भेज दिया गया। जल्द ही जवाब देंगे।",
+    "premiumPaymentFailed": "भुगतान पूरा नहीं हो सका।",
+    "premiumPaymentsDisabled": "भुगतान अभी उपलब्ध नहीं है।",
+    "premiumCheckoutLoadFailed": "चेकआउट शुरू नहीं हो सका। फिर कोशिश करें।"
   }
 }

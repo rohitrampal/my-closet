@@ -9,10 +9,11 @@ import {
   type OutfitPiece,
   type StylistOption,
 } from '@/lib/api/outfit'
+import { PremiumStylistLockedCard } from '@/components/wardrobe/PremiumStylistLockedCard'
 
 function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
+    <span className="inline-flex rounded-full border border-border bg-surface-light px-2.5 py-0.5 text-xs font-medium text-primary-soft">
       {children}
     </span>
   )
@@ -25,7 +26,7 @@ function PieceImage({ piece }: { piece: OutfitPiece }) {
   if (broken) {
     return (
       <div
-        className="flex aspect-[4/5] w-full items-center justify-center bg-zinc-100 text-sm text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500"
+        className="flex aspect-[4/5] w-full items-center justify-center bg-surface text-sm text-muted"
         role="img"
         aria-label={t('clothes.imageUnavailable')}
       >
@@ -37,7 +38,7 @@ function PieceImage({ piece }: { piece: OutfitPiece }) {
   return (
     <img
       src={piece.image_url}
-      alt=""
+      alt={t('clothes.photoAlt')}
       className="aspect-[4/5] w-full object-cover transition-opacity duration-300"
       loading="lazy"
       onError={() => setBroken(true)}
@@ -49,9 +50,9 @@ function PiecePreview({ title, piece }: { title: string; piece: OutfitPiece }) {
   const { t } = useTranslation()
 
   return (
-    <div className="overflow-hidden rounded-xl border border-zinc-200/80 bg-white/70 dark:border-zinc-800/70 dark:bg-zinc-950/30">
-      <div className="border-b border-zinc-200/80 px-3 py-2 dark:border-zinc-800">
-        <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">{title}</h3>
+    <Card padding="none" className="overflow-hidden">
+      <div className="border-b border-border px-3 py-2">
+        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
       </div>
       <PieceImage piece={piece} />
       <div className="flex flex-wrap gap-1.5 p-3" aria-label={t('clothes.tagsLabel')}>
@@ -59,11 +60,20 @@ function PiecePreview({ title, piece }: { title: string; piece: OutfitPiece }) {
         <Tag>{piece.color}</Tag>
         <Tag>{piece.style}</Tag>
       </div>
-    </div>
+    </Card>
   )
 }
 
-export function StylistOptionsResult({ options }: { options: StylistOption[] }) {
+const LOCKED_LABEL_KEYS: Array<'trendy' | 'bold'> = ['trendy', 'bold']
+
+export function StylistOptionsResult({
+  options,
+  lockedPreviewSlots = 0,
+}: {
+  options: StylistOption[]
+  /** Extra blurred cards promoting Premium (e.g. 2 when free tier only got one look). */
+  lockedPreviewSlots?: number
+}) {
   const { t } = useTranslation()
   const saveMutation = useSaveOutfitMutation()
 
@@ -85,15 +95,15 @@ export function StylistOptionsResult({ options }: { options: StylistOption[] }) 
         return (
           <Card
             key={opt.label}
-            className="outfit-results-stagger flex flex-col gap-3 border-violet-200/60 bg-white/90 p-4 transition-all duration-300 dark:border-violet-900/45 dark:bg-zinc-900/80"
+            className="outfit-results-stagger flex flex-col gap-3 border border-accent/30 bg-surface/90 p-4 transition-all duration-300"
             style={{ animationDelay: `${index * 90}ms` }}
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
               <div className="min-w-0 flex-1">
-                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                <h2 className="text-base font-semibold text-foreground">
                   {t(`outfit.pickLabels.${pickKey}`)}
                 </h2>
-                <p className="mt-1 text-xs font-medium tabular-nums text-zinc-500 dark:text-zinc-400">
+                <p className="mt-1 text-xs font-medium tabular-nums text-muted">
                   {t('outfit.matchConfidence', { percent: confidence })}
                 </p>
               </div>
@@ -102,7 +112,7 @@ export function StylistOptionsResult({ options }: { options: StylistOption[] }) 
               </span>
             </div>
             <div
-              className="h-1 w-full overflow-hidden rounded-full bg-zinc-200/90 dark:bg-zinc-800"
+              className="h-1 w-full overflow-hidden rounded-full bg-border"
               role="presentation"
               aria-hidden
             >
@@ -119,10 +129,10 @@ export function StylistOptionsResult({ options }: { options: StylistOption[] }) 
                 <PiecePreview title={t('outfit.slots.bottom')} piece={outfit.bottom} />
               ) : (
                 <div className="rounded-xl border border-dashed border-violet-200/50 bg-violet-50/30 p-4 text-center dark:border-violet-900/40 dark:bg-violet-950/20">
-                  <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                  <p className="text-sm font-medium text-foreground">
                     {t('outfit.slots.bottom')}
                   </p>
-                  <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-2 text-xs text-muted">
                     {t('outfit.dressReplacesBottom')}
                   </p>
                 </div>
@@ -152,6 +162,14 @@ export function StylistOptionsResult({ options }: { options: StylistOption[] }) 
           </Card>
         )
       })}
+      {lockedPreviewSlots > 0
+        ? LOCKED_LABEL_KEYS.slice(0, lockedPreviewSlots).map((key) => (
+            <PremiumStylistLockedCard
+              key={key}
+              labelHint={t(`outfit.pickLabels.${key}`)}
+            />
+          ))
+        : null}
     </div>
   )
 }

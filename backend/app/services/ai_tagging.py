@@ -2,8 +2,8 @@
 Vision-assisted clothing tags: download image, dominant color (Pillow), simple style cues.
 
 Type classification uses URL/filename heuristics from :mod:`app.services.tagging` to stay
-lightweight (no local torch/transformers). Optional Hugging Face Inference API can be enabled
-via env (see below).
+lightweight (no local torch/transformers). Optional Hugging Face Inference Providers
+(``huggingface_hub.InferenceClient``) can be enabled via env (see below).
 """
 
 from __future__ import annotations
@@ -76,6 +76,10 @@ def _download_image(image_url: str) -> bytes:
             return b"".join(chunks)
 
 
+def _get_image_bytes(image_url: str) -> bytes:
+    return _download_image(image_url.strip())
+
+
 def _rgb_distance(a: tuple[int, int, int], b: tuple[int, int, int]) -> float:
     return float(sum((a[i] - b[i]) ** 2 for i in range(3)))
 
@@ -130,32 +134,32 @@ def _hf_inference_classify(image_bytes: bytes) -> dict[str, str] | None:
     Optional: ``HF_API_TOKEN`` + ``PAUUA_HF_TAG_MODEL`` (default: a small general classifier).
     Maps top ImageNet-style labels heuristically to our enums; often weak for garments.
     """
-    token = os.environ.get("HF_API_TOKEN", "").strip()
+    try:
+        from app.config import get_settings
+
+        token = (get_settings().HF_API_TOKEN or os.environ.get("HF_API_TOKEN", "")).strip()
+    except Exception:
+        token = os.environ.get("HF_API_TOKEN", "").strip()
     if not token:
         return None
     model = os.environ.get(
         "PAUUA_HF_TAG_MODEL",
         "google/vit-base-patch16-224",
     ).strip()
-    import httpx
-
-    url = f"https://api-inference.huggingface.co/models/{model}"
     try:
-        with httpx.Client(timeout=60.0) as client:
-            r = client.post(url, headers={"Authorization": f"Bearer {token}"}, content=image_bytes)
-            if r.status_code != 200:
-                logger.debug("HF inference status %s: %s", r.status_code, r.text[:200])
-                return None
-            data = r.json()
+        from huggingface_hub import InferenceClient
+
+        client = InferenceClient(api_key=token, provider="auto")
+        rows = client.image_classification(image_bytes, model=model)
     except Exception as exc:  # noqa: BLE001
-        logger.debug("HF inference failed: %s", exc)
+        logger.debug("HF inference (InferenceClient) failed: %s", exc)
         return None
 
-    if not isinstance(data, list) or not data:
+    if not rows:
         return None
-    top = data[0]
-    label = str(top.get("label", "")).lower()
-    score = float(top.get("score", 0.0))
+    top = rows[0]
+    label = str(getattr(top, "label", "") or "").lower()
+    score = float(getattr(top, "score", 0.0))
     if score < 0.12:
         return None
 
@@ -206,6 +210,36 @@ def _tagging_cache_key(image_url: str) -> str:
     return digest
 
 
+def analyze_image_bytes(image_bytes: bytes) -> dict[str, str]:
+    """
+    Same as :func:`analyze_image` but from raw image bytes (e.g. multipart upload).
+    URL heuristics use a neutral placeholder; vision/HF still run on pixels.
+    """
+    if len(image_bytes) > _MAX_IMAGE_BYTES:
+        raise ValueError("image too large")
+    ck = f"bytes:{hashlib.sha256(image_bytes).hexdigest()[:32]}"
+    hit = ai_image_tag_cache.get(ck)
+    if hit is not None:
+        return dict(hit)
+
+    base = tagging.analyze_image("https://storage.local/garment.jpg")
+    try:
+        vision = _vision_tags(image_bytes)
+    except Exception as exc:  # noqa: BLE001
+        logger.debug("Vision tagging skipped for uploaded bytes: %s", exc)
+        fallback = dict(base)
+        ai_image_tag_cache.set(ck, tuple(fallback.items()))
+        return fallback
+
+    merged: dict[str, str] = {
+        "type": vision.get("type") or base["type"],
+        "color": vision.get("color") or base["color"],
+        "style": (vision.get("style") or "").strip() or base["style"],
+    }
+    ai_image_tag_cache.set(ck, tuple(merged.items()))
+    return merged
+
+
 def analyze_image(image_url: str) -> dict[str, str]:
     """
     Suggest ``type``, ``color``, and ``style`` for a garment image URL.
@@ -222,7 +256,7 @@ def analyze_image(image_url: str) -> dict[str, str]:
 
     base = tagging.analyze_image(image_url)
     try:
-        raw = _download_image(image_url.strip())
+        raw = _get_image_bytes(image_url)
         vision = _vision_tags(raw)
     except Exception as exc:  # noqa: BLE001
         logger.debug("Vision tagging skipped for %s: %s", image_url[:80], exc)

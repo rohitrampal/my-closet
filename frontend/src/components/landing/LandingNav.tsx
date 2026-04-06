@@ -1,9 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { LANDING_PRIMARY_CTA } from '@/components/landing/landingCopy'
 import { LandingCtaLink } from '@/components/landing/LandingCtaLink'
 
 export function LandingNav() {
+  const { t } = useTranslation()
   const reduce = useReducedMotion()
 
   return (
@@ -14,25 +15,23 @@ export function LandingNav() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <nav
-        className="pointer-events-auto flex w-full max-w-5xl items-center gap-2 rounded-full border border-white/10 bg-zinc-950/55 px-3 py-2 shadow-lg shadow-fuchsia-950/20 backdrop-blur-xl sm:gap-3 sm:px-6 sm:py-2.5"
-        aria-label="Primary"
+        className="pointer-events-auto flex w-full max-w-5xl items-center gap-2 rounded-full border border-border bg-background/55 px-3 py-2 shadow-lg shadow-glow backdrop-blur-xl sm:gap-3 sm:px-6 sm:py-2.5"
+        aria-label={t('landing.navAria')}
       >
         <Link
           to="/"
-          className="font-display shrink-0 text-base font-semibold tracking-tight text-white sm:text-xl"
+          className="font-display shrink-0 text-base font-semibold tracking-tight text-gradient sm:text-xl"
         >
-          Pauua
+          {t('landing.navAppName')}
         </Link>
         <div className="ml-auto flex min-w-0 items-center gap-1.5 sm:gap-3">
           <Link
             to="/login"
-            className="shrink-0 rounded-full px-2.5 py-2 text-xs font-medium text-zinc-300 transition-colors hover:text-white min-[380px]:px-3 min-[380px]:text-sm sm:px-4"
+            className="shrink-0 rounded-full px-2.5 py-2 text-xs font-medium text-muted transition-colors hover:text-foreground min-[380px]:px-3 min-[380px]:text-sm sm:px-4"
           >
-            Log in
+            {t('landing.navLogin')}
           </Link>
-          <LandingCtaLink className="max-w-[min(52vw,11.5rem)] px-2 py-2 text-[10px] leading-tight min-[380px]:max-w-none min-[380px]:px-3 min-[380px]:text-xs sm:max-w-none sm:px-5 sm:text-sm sm:leading-snug">
-            {LANDING_PRIMARY_CTA}
-          </LandingCtaLink>
+          <LandingCtaLink className="max-w-[min(52vw,11.5rem)] px-2 py-2 text-[10px] leading-tight min-[380px]:max-w-none min-[380px]:px-3 min-[380px]:text-xs sm:max-w-none sm:px-5 sm:text-sm sm:leading-snug" />
         </div>
       </nav>
     </motion.header>

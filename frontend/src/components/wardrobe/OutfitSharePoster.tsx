@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import type { GeneratedOutfit } from '@/lib/api/outfit'
+import { i18n } from '@/lib/i18n/config'
 
 export type OutfitSharePosterCopy = {
   appName: string
@@ -21,6 +22,15 @@ type OutfitSharePosterProps = {
   outfit: GeneratedOutfit
   matchPercent: number
   copy: OutfitSharePosterCopy
+  /**
+   * Optional same-origin image URLs (e.g. authenticated API) so html-to-image can
+   * `fetch()` pixels with Authorization; remote S3 URLs often lack CORS for fetch.
+   */
+  shareFetchImageSrc?: {
+    top: string
+    bottom?: string
+    footwear: string
+  }
 }
 
 const sheet = {
@@ -151,8 +161,11 @@ const sheet = {
 }
 
 export const OutfitSharePoster = forwardRef<HTMLDivElement, OutfitSharePosterProps>(
-  function OutfitSharePoster({ outfit, copy, matchPercent }, ref) {
+  function OutfitSharePoster({ outfit, copy, matchPercent, shareFetchImageSrc }, ref) {
     const barWidth = Math.min(100, Math.max(0, matchPercent))
+    const topSrc = shareFetchImageSrc?.top ?? outfit.top.image_url
+    const bottomSrc = shareFetchImageSrc?.bottom ?? outfit.bottom?.image_url
+    const footwearSrc = shareFetchImageSrc?.footwear ?? outfit.footwear.image_url
 
     return (
       <div ref={ref} style={sheet.wrap}>
@@ -182,8 +195,8 @@ export const OutfitSharePoster = forwardRef<HTMLDivElement, OutfitSharePosterPro
             <div style={sheet.cellTitle}>{copy.topTitle}</div>
             <div style={sheet.imgShell}>
               <img
-                src={outfit.top.image_url}
-                alt=""
+                src={topSrc}
+                alt={i18n.t('clothes.photoAlt')}
                 crossOrigin="anonymous"
                 style={sheet.img}
               />
@@ -197,8 +210,8 @@ export const OutfitSharePoster = forwardRef<HTMLDivElement, OutfitSharePosterPro
               <>
                 <div style={sheet.imgShell}>
                   <img
-                    src={outfit.bottom.image_url}
-                    alt=""
+                    src={bottomSrc}
+                    alt={i18n.t('clothes.photoAlt')}
                     crossOrigin="anonymous"
                     style={sheet.img}
                   />
@@ -217,8 +230,8 @@ export const OutfitSharePoster = forwardRef<HTMLDivElement, OutfitSharePosterPro
             <div style={sheet.cellTitle}>{copy.footwearTitle}</div>
             <div style={sheet.imgShell}>
               <img
-                src={outfit.footwear.image_url}
-                alt=""
+                src={footwearSrc}
+                alt={i18n.t('clothes.photoAlt')}
                 crossOrigin="anonymous"
                 style={sheet.img}
               />
@@ -230,5 +243,5 @@ export const OutfitSharePoster = forwardRef<HTMLDivElement, OutfitSharePosterPro
         <div style={sheet.footer}>{copy.footerLine}</div>
       </div>
     )
-  },
+  }
 )

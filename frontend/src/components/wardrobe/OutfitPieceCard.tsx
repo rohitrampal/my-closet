@@ -5,7 +5,7 @@ import type { OutfitPiece } from '@/lib/api/outfit'
 
 function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
+    <span className="inline-flex rounded-full border border-border bg-surface-light px-2.5 py-0.5 text-xs font-medium text-primary-soft">
       {children}
     </span>
   )
@@ -18,7 +18,7 @@ function PieceImage({ piece }: { piece: OutfitPiece }) {
   if (broken) {
     return (
       <div
-        className="flex aspect-[4/5] w-full items-center justify-center bg-zinc-100 text-sm text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500"
+        className="flex aspect-[4/5] w-full items-center justify-center bg-surface text-sm text-muted"
         role="img"
         aria-label={t('clothes.imageUnavailable')}
       >
@@ -30,7 +30,7 @@ function PieceImage({ piece }: { piece: OutfitPiece }) {
   return (
     <img
       src={piece.image_url}
-      alt=""
+      alt={t('clothes.photoAlt')}
       className="aspect-[4/5] w-full object-cover transition-opacity duration-300"
       loading="lazy"
       onError={() => setBroken(true)}
@@ -64,14 +64,10 @@ export function OutfitPieceCard({
       }`.trim()}
     >
       <div
-        className={`border-b border-zinc-200/80 dark:border-zinc-800 ${
-          compact ? 'px-2.5 py-1.5' : 'px-4 py-2.5'
-        }`}
+        className={`border-b border-border ${compact ? 'px-2.5 py-1.5' : 'px-4 py-2.5'}`}
       >
         <h3
-          className={`font-semibold text-zinc-900 dark:text-zinc-50 ${
-            compact ? 'text-xs' : 'text-sm'
-          }`}
+          className={`font-semibold text-foreground ${compact ? 'text-xs' : 'text-sm'}`}
         >
           {title}
         </h3>

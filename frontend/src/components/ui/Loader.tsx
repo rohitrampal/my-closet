@@ -1,10 +1,13 @@
 import type { HTMLAttributes } from 'react'
 
+import { i18n } from '@/lib/i18n/config'
+
 export type LoaderProps = HTMLAttributes<HTMLDivElement> & {
   label?: string
 }
 
-export function Loader({ label = 'Loading', className = '', ...props }: LoaderProps) {
+export function Loader({ label, className = '', ...props }: LoaderProps) {
+  const resolved = label ?? i18n.t('common.loading')
   return (
     <div
       role="status"
@@ -14,10 +17,10 @@ export function Loader({ label = 'Loading', className = '', ...props }: LoaderPr
       {...props}
     >
       <span
-        className="h-9 w-9 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-700 dark:border-zinc-700 dark:border-t-zinc-200"
+        className="h-9 w-9 animate-spin rounded-full border-2 border-border border-t-primary"
         aria-hidden
       />
-      <span className="sr-only">{label}</span>
+      <span className="sr-only">{resolved}</span>
     </div>
   )
 }

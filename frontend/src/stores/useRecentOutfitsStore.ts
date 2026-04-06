@@ -28,13 +28,13 @@ export const useRecentOutfitsStore = create<RecentOutfitsState>()(
       addRecentOutfit: (entry) => {
         const key = outfitIdentityKey(entry.bundle)
         const withoutDup = get().recentOutfits.filter(
-          (item) => outfitIdentityKey(item.bundle) !== key,
+          (item) => outfitIdentityKey(item.bundle) !== key
         )
         set({
           recentOutfits: [entry, ...withoutDup].slice(0, MAX_RECENT),
         })
       },
     }),
-    { name: 'wardrobe-recent-outfits' },
-  ),
+    { name: 'wardrobe-recent-outfits' }
+  )
 )

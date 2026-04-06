@@ -29,5 +29,6 @@ export type ClothesItem = {
   type: ClothesType
   color: string
   style: string
+  detection_confidence?: number | null
   created_at: string
 }

@@ -10,6 +10,8 @@ import { AuthToolbar } from '@/components/layout/AuthToolbar'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
+import { PasswordInput } from '@/components/ui/PasswordInput'
+import { Heading, Subtext } from '@/components/ui/Typography'
 import { loginRequest } from '@/lib/api/auth'
 import { getErrorMessage } from '@/lib/api/errors'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -43,21 +45,19 @@ export function LoginPage() {
       navigate('/dashboard', { replace: true })
     },
     onError: (error: unknown) => {
-      toast.error(getErrorMessage(error))
+      toast.error(getErrorMessage(error, t))
     },
   })
 
   return (
     <div>
       <AuthToolbar />
-      <Card className="p-6 sm:p-8">
+      <Card radius="button" padding="none" className="p-6 shadow-soft sm:p-8">
         <div className="mb-6 space-y-1">
-          <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <Heading as="h1" variant="title" className="!text-xl sm:!text-2xl">
             {t('auth.login')}
-          </h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {t('auth.loginSubtitle')}
-          </p>
+          </Heading>
+          <Subtext>{t('auth.loginSubtitle')}</Subtext>
         </div>
         <form
           className="space-y-4"
@@ -73,23 +73,30 @@ export function LoginPage() {
             error={form.formState.errors.email?.message}
             {...form.register('email')}
           />
-          <Input
+          <PasswordInput
             id="login-password"
-            type="password"
             autoComplete="current-password"
             label={t('auth.password')}
             placeholder={t('auth.passwordPlaceholder')}
             error={form.formState.errors.password?.message}
             {...form.register('password')}
           />
+          <div className="flex justify-end">
+            <Link
+              to="/forgot-password"
+              className="text-xs font-medium text-primary underline-offset-4 hover:text-primary-soft hover:underline"
+            >
+              {t('auth.forgotPassword')}
+            </Link>
+          </div>
           <Button type="submit" className="w-full" disabled={mutation.isPending}>
             {mutation.isPending ? t('common.loading') : t('auth.login')}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-6 text-center text-sm text-muted">
           <Link
             to="/signup"
-            className="font-medium text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
+            className="font-medium text-primary underline-offset-4 hover:text-primary-soft hover:underline"
           >
             {t('auth.signup')}
           </Link>

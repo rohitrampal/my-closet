@@ -10,6 +10,7 @@ from app.models.base import Base
 
 if TYPE_CHECKING:
     from app.models.admin_action import AdminAction
+    from app.models.analytics_event import AnalyticsEvent
     from app.models.clothes import Clothes
     from app.models.outfit_feedback import OutfitFeedback
     from app.models.saved_outfit import SavedOutfit
@@ -54,4 +55,8 @@ class User(Base):
     admin_actions: Mapped[list["AdminAction"]] = relationship(
         "AdminAction",
         back_populates="admin_user",
+    )
+    analytics_events: Mapped[list["AnalyticsEvent"]] = relationship(
+        "AnalyticsEvent",
+        back_populates="user",
     )

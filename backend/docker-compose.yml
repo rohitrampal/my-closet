@@ -15,8 +15,13 @@ services:
       timeout: 5s
       retries: 5
 
+  # After changing app code or requirements.txt: docker compose up -d --build api
   api:
     build: .
+    # Mount app source in dev so new routes (e.g. POST /auth/logout) work without rebuilding.
+    # Remove or comment out for production-style runs that should use only the image contents.
+    volumes:
+      - ./app:/app/app
     ports:
       - "8000:8000"
     environment:
@@ -25,6 +30,63 @@ services:
       ENV: ${ENV:-dev}
       CORS_ORIGINS: ${CORS_ORIGINS:-*}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET:-}
+      AWS_S3_REGION: ${AWS_S3_REGION:-us-east-1}
+      AWS_S3_PUBLIC_BASE_URL: ${AWS_S3_PUBLIC_BASE_URL:-}
+      AWS_ENDPOINT_URL_S3: ${AWS_ENDPOINT_URL_S3:-}
+      # From backend/.env (Compose substitutes ${VAR}); image has no .env file baked in.
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.0-flash}
+      # Set true when Gemini free tier is exhausted to skip calls and use OpenAI / local fallback only
+      GEMINI_DISABLED: ${GEMINI_DISABLED:-false}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OPENAI_VISION_MODEL: ${OPENAI_VISION_MODEL:-}
+      VISION_STEP_TIMEOUT_SECONDS: ${VISION_STEP_TIMEOUT_SECONDS:-60}
+      VISION_MIN_ACCEPT_CONFIDENCE: ${VISION_MIN_ACCEPT_CONFIDENCE:-0.6}
+      VISION_CIRCUIT_FAILURE_THRESHOLD: ${VISION_CIRCUIT_FAILURE_THRESHOLD:-5}
+      VISION_CIRCUIT_COOLDOWN_SECONDS: ${VISION_CIRCUIT_COOLDOWN_SECONDS:-600}
+      VISION_FAST_PATH_ENABLED: ${VISION_FAST_PATH_ENABLED:-true}
+      VISION_FAST_PATH_EDGE_MAX: ${VISION_FAST_PATH_EDGE_MAX:-12}
+      VISION_FAST_PATH_COLOR_SHARE_MIN: ${VISION_FAST_PATH_COLOR_SHARE_MIN:-0.78}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_BASE_URL: ${GROQ_BASE_URL:-https://api.groq.com/openai/v1}
+      GROQ_VISION_MODEL: ${GROQ_VISION_MODEL:-meta-llama/llama-4-scout-17b-16e-instruct}
+      HF_API_TOKEN: ${HF_API_TOKEN:-}
+      HF_VISION_BASE_URL: ${HF_VISION_BASE_URL:-https://router.huggingface.co/v1}
+      HF_VISION_MODEL: ${HF_VISION_MODEL:-meta-llama/Llama-3.2-11B-Vision-Instruct}
+      SARVAM_API_KEY: ${SARVAM_API_KEY:-}
+      SARVAM_BASE_URL: ${SARVAM_BASE_URL:-https://api.sarvam.ai/v1}
+      SARVAM_MODEL: ${SARVAM_MODEL:-sarvam-30b}
+      SARVAM_VISION_MODEL: ${SARVAM_VISION_MODEL:-}
+      # From backend/.env — image has no .env; these must be passed in for POST /payment/*
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      PRICING_MODE: ${PRICING_MODE:-prod}
+      PREMIUM_PRICE_INR: ${PREMIUM_PRICE_INR:-49}
+      TEST_PRICE_INR: ${TEST_PRICE_INR:-1}
+      # Contact form — POST /contact (Compose reads backend/.env for ${VAR}; not in image)
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost:5173}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen("http://127.0.0.1:8000/health", timeout=5).read()
+      # Less frequent probes (logs filter /health access lines, but this cuts load too)
+      interval: 30s
+      timeout: 8s
+      retries: 5
+      start_period: 120s
     depends_on:
       db:
         condition: service_healthy

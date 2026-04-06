@@ -58,6 +58,25 @@ def repeat_penalty_for_clothes(
     return repeat_penalty_for_outfit(user_id, top.id, bid, footwear.id)
 
 
+def get_recent_outfit_keys(user_id: int) -> list[tuple[int, int | None, int]]:
+    """Recent generated triples (newest last), pruned by TTL. Bottom id is None when encoded as 0 in key."""
+    now = time.monotonic()
+    with _lock:
+        entries = _load_pruned(user_id, now)
+    out: list[tuple[int, int | None, int]] = []
+    for _exp, k in entries:
+        parts = k.split("-")
+        if len(parts) != 3:
+            continue
+        try:
+            tid, b_raw, sid = int(parts[0]), int(parts[1]), int(parts[2])
+        except ValueError:
+            continue
+        bid = None if b_raw == 0 else b_raw
+        out.append((tid, bid, sid))
+    return out
+
+
 def record_generated_outfit(
     user_id: int | None,
     top_id: int,

@@ -60,3 +60,28 @@ class AuthSessionResponse(BaseModel):
     access_token: str
     token_type: str = Field(default="bearer")
     user: UserResponse
+
+
+class ForgotPasswordRequest(BaseModel):
+    """Request a password-reset email."""
+
+    email: EmailStr = Field(..., description="Account email")
+
+
+class ResetPasswordRequest(BaseModel):
+    """Set a new password using the token from the reset email."""
+
+    token: str = Field(..., min_length=10, description="JWT from the reset link")
+    password: str = Field(
+        ...,
+        min_length=_PASSWORD_MIN_LEN,
+        max_length=_PASSWORD_MAX_LEN,
+        description="New password",
+    )
+
+    @field_validator("password")
+    @classmethod
+    def password_strength(cls, v: str) -> str:
+        if not re.search(r"[A-Za-z]", v) or not re.search(r"\d", v):
+            raise ValueError("Password must contain at least one letter and one number")
+        return v

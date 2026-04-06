@@ -60,3 +60,21 @@ def _make_caches() -> tuple[TTLRUCache, TTLRUCache, TTLRUCache]:
 
 
 ml_outfit_score_cache, outfit_generation_cache, ai_image_tag_cache = _make_caches()
+
+# Gemini garment tagging: fixed ~10m TTL (separate from MEMORY_CACHE_TTL_SECONDS).
+_gemini_s = get_settings()
+gemini_image_tag_cache = TTLRUCache(
+    ttl_seconds=600.0,
+    maxsize=max(64, int(_gemini_s.MEMORY_CACHE_MAX_ENTRIES)),
+)
+
+openai_image_tag_cache = TTLRUCache(
+    ttl_seconds=600.0,
+    maxsize=max(64, int(_gemini_s.MEMORY_CACHE_MAX_ENTRIES)),
+)
+
+# Full multi-provider /clothes/analyze result (same image → same provider+payload ~10m)
+vision_pipeline_cache = TTLRUCache(
+    ttl_seconds=600.0,
+    maxsize=max(64, int(_gemini_s.MEMORY_CACHE_MAX_ENTRIES)),
+)

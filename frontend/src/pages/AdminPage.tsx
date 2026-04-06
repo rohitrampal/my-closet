@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/Button'
@@ -8,8 +8,10 @@ import { Input } from '@/components/ui/Input'
 import { Loader } from '@/components/ui/Loader'
 import { Select } from '@/components/ui/Select'
 import { AdminAnalyticsCharts } from '@/components/admin/AdminAnalyticsCharts'
+import { Heading, Subtext } from '@/components/ui/Typography'
 import {
   fetchAdminAnalytics,
+  fetchAdminAnalyticsSummary,
   fetchAdminDashboard,
   fetchAdminSettings,
   fetchAdminUsers,
@@ -33,12 +35,10 @@ function PreviewGarment({ piece, label }: { piece: ClothesApiPiece; label: strin
 
   return (
     <div className="space-y-2">
-      <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-        {label}
-      </p>
+      <p className="text-xs font-medium uppercase tracking-wide text-muted">{label}</p>
       {broken ? (
         <div
-          className="flex aspect-[4/5] w-full max-w-[200px] items-center justify-center rounded-[var(--radius-app)] bg-zinc-100 text-xs text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500"
+          className="flex aspect-[4/5] w-full max-w-[200px] items-center justify-center rounded-[var(--radius-app)] bg-surface text-xs text-muted"
           role="img"
           aria-label={t('clothes.imageUnavailable')}
         >
@@ -47,13 +47,13 @@ function PreviewGarment({ piece, label }: { piece: ClothesApiPiece; label: strin
       ) : (
         <img
           src={piece.image_url}
-          alt=""
+          alt={t('clothes.photoAlt')}
           className="aspect-[4/5] w-full max-w-[200px] rounded-[var(--radius-app)] object-cover"
           loading="lazy"
           onError={() => setBroken(true)}
         />
       )}
-      <p className="text-xs text-zinc-600 dark:text-zinc-300">
+      <p className="text-xs text-muted">
         {piece.color} · {piece.style}
       </p>
     </div>
@@ -84,18 +84,22 @@ export function AdminPage() {
     queryFn: () => fetchAdminAnalytics({ days: 30 }),
   })
 
-  const [explore, setExplore] = useState('')
-  const [mlWeight, setMlWeight] = useState('')
+  const productAnalyticsQ = useQuery({
+    queryKey: ['admin', 'analytics-summary'],
+    queryFn: fetchAdminAnalyticsSummary,
+  })
+
+  const [exploreDraft, setExploreDraft] = useState<string | undefined>(undefined)
+  const [mlDraft, setMlDraft] = useState<string | undefined>(undefined)
+  const explore =
+    exploreDraft ??
+    (settingsQ.data != null ? String(settingsQ.data.ml_exploration_rate) : '')
+  const mlWeight =
+    mlDraft ?? (settingsQ.data != null ? String(settingsQ.data.ml_weight) : '')
+
   const [previewOccasion, setPreviewOccasion] = useState<Occasion>('casual')
   const [previewWeather, setPreviewWeather] = useState<Weather>('hot')
   const [previewResult, setPreviewResult] = useState<AdminTestOutfitResponse | null>(null)
-
-  useEffect(() => {
-    if (settingsQ.data) {
-      setExplore(String(settingsQ.data.ml_exploration_rate))
-      setMlWeight(String(settingsQ.data.ml_weight))
-    }
-  }, [settingsQ.data])
 
   const premiumMut = useMutation({
     mutationFn: ({ id, is_premium }: { id: number; is_premium: boolean }) =>
@@ -114,6 +118,8 @@ export function AdminPage() {
         ml_weight: Number.parseFloat(mlWeight),
       }),
     onSuccess: () => {
+      setExploreDraft(undefined)
+      setMlDraft(undefined)
       qc.invalidateQueries({ queryKey: ['admin', 'settings'] })
       qc.invalidateQueries({ queryKey: ['admin', 'dashboard'] })
       qc.invalidateQueries({ queryKey: ['admin', 'analytics'] })
@@ -123,8 +129,10 @@ export function AdminPage() {
   })
 
   const flagsMut = useMutation({
-    mutationFn: (body: { feature_ai_tagging?: boolean; feature_stylist_mode?: boolean }) =>
-      patchAdminSettings(body),
+    mutationFn: (body: {
+      feature_ai_tagging?: boolean
+      feature_stylist_mode?: boolean
+    }) => patchAdminSettings(body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['admin', 'settings'] })
       toast.success(t('admin.toastFlagsUpdated'))
@@ -141,15 +149,16 @@ export function AdminPage() {
     onError: (e: unknown) => toast.error(getErrorMessage(e)),
   })
 
-  const loading = dashboardQ.isPending || usersQ.isPending || settingsQ.isPending
+  const loading =
+    dashboardQ.isPending || usersQ.isPending || settingsQ.isPending || productAnalyticsQ.isPending
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <Heading as="h1" variant="title">
           {t('admin.title')}
-        </h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{t('admin.subtitle')}</p>
+        </Heading>
+        <Subtext className="mt-1">{t('admin.subtitle')}</Subtext>
       </div>
 
       {loading && <Loader label={t('common.loading')} />}
@@ -157,30 +166,79 @@ export function AdminPage() {
       {dashboardQ.data && (
         <div className="grid gap-4 sm:grid-cols-3">
           <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted">
               {t('admin.stats.users')}
             </p>
-            <p className="mt-2 text-2xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+            <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
               {dashboardQ.data.total_users}
             </p>
           </Card>
           <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted">
               {t('admin.stats.outfits')}
             </p>
-            <p className="mt-2 text-2xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+            <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
               {dashboardQ.data.total_outfits_generated}
             </p>
           </Card>
           <Card className="p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted">
               {t('admin.stats.likeRate')}
             </p>
-            <p className="mt-2 text-2xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+            <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
               {(dashboardQ.data.like_rate * 100).toFixed(1)}%
             </p>
           </Card>
         </div>
+      )}
+
+      {productAnalyticsQ.data && (
+        <div className="space-y-2">
+          <h2 className="text-sm font-semibold text-foreground">
+            {t('admin.productAnalytics.heading')}
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                {t('admin.productAnalytics.generates')}
+              </p>
+              <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
+                {productAnalyticsQ.data.total_generates}
+              </p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                {t('admin.productAnalytics.upgradeClicks')}
+              </p>
+              <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
+                {productAnalyticsQ.data.total_upgrades_clicked}
+              </p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                {t('admin.productAnalytics.payments')}
+              </p>
+              <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
+                {productAnalyticsQ.data.total_payments}
+              </p>
+            </Card>
+            <Card className="p-4">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                {t('admin.productAnalytics.conversion')}
+              </p>
+              <p className="mt-2 text-2xl font-semibold tabular-nums text-foreground">
+                {(productAnalyticsQ.data.conversion_rate * 100).toFixed(1)}%
+              </p>
+            </Card>
+          </div>
+        </div>
+      )}
+      {productAnalyticsQ.isError && (
+        <Card className="border-danger/40 bg-danger/5 p-4">
+          <p className="text-sm text-danger" role="alert">
+            {getErrorMessage(productAnalyticsQ.error)}
+          </p>
+        </Card>
       )}
 
       {analyticsQ.isPending && <Loader label={t('admin.chartsLoading')} />}
@@ -191,8 +249,8 @@ export function AdminPage() {
         />
       )}
       {analyticsQ.isError && (
-        <Card className="border-red-200/80 p-4 dark:border-red-900/50">
-          <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+        <Card className="border-danger/40 bg-danger/5 p-4">
+          <p className="text-sm text-danger" role="alert">
             {getErrorMessage(analyticsQ.error)}
           </p>
         </Card>
@@ -200,12 +258,10 @@ export function AdminPage() {
 
       <Card className="space-y-4 p-4">
         <div>
-          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+          <h2 className="text-sm font-semibold text-foreground">
             {t('admin.previewHeading')}
           </h2>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-            {t('admin.previewSubtitle')}
-          </p>
+          <p className="mt-1 text-xs text-muted">{t('admin.previewSubtitle')}</p>
         </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
           <Select
@@ -243,7 +299,7 @@ export function AdminPage() {
         </div>
 
         {previewResult && (
-          <div className="space-y-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+          <div className="space-y-4 border-t border-border pt-4 ">
             <div className="flex flex-wrap gap-6">
               <PreviewGarment
                 piece={previewResult.outfit.top}
@@ -265,25 +321,38 @@ export function AdminPage() {
               />
             </div>
             <div className="flex flex-wrap gap-6 text-sm">
-              <p className="tabular-nums text-zinc-700 dark:text-zinc-200">
-                <span className="font-medium text-zinc-900 dark:text-zinc-50">
+              <p className="tabular-nums text-foreground/90">
+                <span className="font-medium text-foreground">
                   {t('admin.ruleScore')}:
                 </span>{' '}
                 {previewResult.rule_score.toFixed(2)}
               </p>
-              <p className="tabular-nums text-zinc-700 dark:text-zinc-200">
-                <span className="font-medium text-zinc-900 dark:text-zinc-50">
-                  {t('admin.mlScore')}:
-                </span>{' '}
+              <p className="tabular-nums text-foreground/90">
+                <span className="font-medium text-foreground">{t('admin.mlScore')}:</span>{' '}
                 {previewResult.ml_score.toFixed(2)}
               </p>
             </div>
+            {previewResult.score_debug ? (
+              <div className="rounded-lg border border-border bg-surface/40 p-3 text-xs">
+                <p className="mb-2 font-medium text-foreground">
+                  {t('admin.scoreDebug')}
+                </p>
+                <dl className="grid gap-1 sm:grid-cols-2">
+                  {Object.entries(previewResult.score_debug).map(([k, v]) => (
+                    <div key={k} className="contents">
+                      <dt className="text-muted">{k}</dt>
+                      <dd className="font-mono text-foreground">{String(v)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ) : null}
             {previewResult.outfit.reasons && previewResult.outfit.reasons.length > 0 ? (
               <div>
-                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted">
                   {t('admin.previewWhy')}
                 </p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-zinc-600 dark:text-zinc-300">
+                <ul className="list-inside list-disc space-y-1 text-sm text-muted">
                   {previewResult.outfit.reasons.map((line, i) => (
                     <li key={`${i}-${line.slice(0, 24)}`}>{line}</li>
                   ))}
@@ -296,40 +365,35 @@ export function AdminPage() {
 
       {usersQ.data && (
         <Card className="overflow-hidden p-0">
-          <div className="border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+          <div className="border-b border-border px-4 py-3 ">
+            <h2 className="text-sm font-semibold text-foreground">
               {t('admin.usersHeading')}
             </h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs text-muted">
               {t('admin.usersCount', { total: usersQ.data.total })}
             </p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full min-w-lg text-left text-sm">
-              <thead className="border-b border-zinc-200 bg-zinc-50/80 dark:border-zinc-800 dark:bg-zinc-900/50">
+              <thead className="border-b border-border bg-surface/80">
                 <tr>
-                  <th className="px-4 py-2 font-medium text-zinc-600 dark:text-zinc-300">ID</th>
-                  <th className="px-4 py-2 font-medium text-zinc-600 dark:text-zinc-300">
-                    {t('auth.email')}
-                  </th>
-                  <th className="px-4 py-2 font-medium text-zinc-600 dark:text-zinc-300">
+                  <th className="px-4 py-2 font-medium text-muted">{t('admin.columnId')}</th>
+                  <th className="px-4 py-2 font-medium text-muted">{t('auth.email')}</th>
+                  <th className="px-4 py-2 font-medium text-muted">
                     {t('admin.premium')}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {usersQ.data.items.map((u) => (
-                  <tr
-                    key={u.id}
-                    className="border-b border-zinc-100 last:border-0 dark:border-zinc-800/80"
-                  >
-                    <td className="px-4 py-2.5 tabular-nums text-zinc-700 dark:text-zinc-200">
+                  <tr key={u.id} className="border-b border-border/60 last:border-0 /80">
+                    <td className="px-4 py-2.5 tabular-nums text-foreground/90">
                       {u.id}
                     </td>
-                    <td className="px-4 py-2.5 text-zinc-800 dark:text-zinc-100">{u.email}</td>
+                    <td className="px-4 py-2.5 text-foreground">{u.email}</td>
                     <td className="px-4 py-2.5">
                       {u.is_admin ? (
-                        <span className="text-xs text-zinc-400 dark:text-zinc-500">—</span>
+                        <span className="text-xs text-muted">—</span>
                       ) : (
                         <Button
                           type="button"
@@ -340,7 +404,9 @@ export function AdminPage() {
                             premiumMut.mutate({ id: u.id, is_premium: !u.is_premium })
                           }
                         >
-                          {u.is_premium ? t('admin.removePremium') : t('admin.grantPremium')}
+                          {u.is_premium
+                            ? t('admin.removePremium')
+                            : t('admin.grantPremium')}
                         </Button>
                       )}
                     </td>
@@ -355,7 +421,7 @@ export function AdminPage() {
       {settingsQ.data && (
         <div className="grid gap-6 lg:grid-cols-2">
           <Card className="space-y-4 p-4">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+            <h2 className="text-sm font-semibold text-foreground">
               {t('admin.mlHeading')}
             </h2>
             <Input
@@ -364,7 +430,7 @@ export function AdminPage() {
               inputMode="decimal"
               label={t('admin.mlExploration')}
               value={explore}
-              onChange={(e) => setExplore(e.target.value)}
+              onChange={(e) => setExploreDraft(e.target.value)}
             />
             <Input
               id="admin-ml-weight"
@@ -372,7 +438,7 @@ export function AdminPage() {
               inputMode="decimal"
               label={t('admin.mlWeight')}
               value={mlWeight}
-              onChange={(e) => setMlWeight(e.target.value)}
+              onChange={(e) => setMlDraft(e.target.value)}
             />
             <Button
               type="button"
@@ -388,17 +454,17 @@ export function AdminPage() {
           </Card>
 
           <Card className="space-y-4 p-4">
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+            <h2 className="text-sm font-semibold text-foreground">
               {t('admin.flagsHeading')}
             </h2>
             <div className="flex flex-col gap-3">
-              <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-800">
-                <span className="text-sm text-zinc-700 dark:text-zinc-200">
+              <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 ">
+                <span className="text-sm text-foreground/90">
                   {t('admin.flagAiTagging')}
                 </span>
                 <input
                   type="checkbox"
-                  className="h-4 w-4 accent-zinc-900 dark:accent-zinc-100"
+                  className="h-4 w-4 accent-primary"
                   checked={settingsQ.data.feature_ai_tagging}
                   disabled={flagsMut.isPending}
                   onChange={(e) =>
@@ -406,13 +472,13 @@ export function AdminPage() {
                   }
                 />
               </label>
-              <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-800">
-                <span className="text-sm text-zinc-700 dark:text-zinc-200">
+              <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 ">
+                <span className="text-sm text-foreground/90">
                   {t('admin.flagStylist')}
                 </span>
                 <input
                   type="checkbox"
-                  className="h-4 w-4 accent-zinc-900 dark:accent-zinc-100"
+                  className="h-4 w-4 accent-primary"
                   checked={settingsQ.data.feature_stylist_mode}
                   disabled={flagsMut.isPending}
                   onChange={(e) =>
@@ -426,8 +492,8 @@ export function AdminPage() {
       )}
 
       {(dashboardQ.isError || usersQ.isError || settingsQ.isError) && (
-        <Card className="border-red-200/80 p-4 dark:border-red-900/50">
-          <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+        <Card className="border-danger/40 bg-danger/5 p-4">
+          <p className="text-sm text-danger" role="alert">
             {getErrorMessage(dashboardQ.error ?? usersQ.error ?? settingsQ.error)}
           </p>
         </Card>

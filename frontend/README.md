@@ -18,14 +18,14 @@ Edit `.env` and set `VITE_API_BASE_URL` to your API origin (no trailing slash). 
 
 ## Scripts
 
-| Command            | Description                          |
-| ------------------ | ------------------------------------ |
-| `npm run dev`      | Vite dev server                      |
-| `npm run build`    | TypeScript check + production build  |
-| `npm run preview`  | Preview the production build locally |
-| `npm run lint`     | ESLint (includes Prettier rule)      |
-| `npm run format`   | Prettier write                       |
-| `npm run format:check` | Prettier check                   |
+| Command                | Description                          |
+| ---------------------- | ------------------------------------ |
+| `npm run dev`          | Vite dev server                      |
+| `npm run build`        | TypeScript check + production build  |
+| `npm run preview`      | Preview the production build locally |
+| `npm run lint`         | ESLint (includes Prettier rule)      |
+| `npm run format`       | Prettier write                       |
+| `npm run format:check` | Prettier check                       |
 
 ## Project layout
 
@@ -59,12 +59,12 @@ Path alias `@/*` → `src/*` (see `vite.config.ts` and `tsconfig.app.json`).
 
 ## Routes
 
-| Path         | Layout   | Page        |
-| ------------ | -------- | ----------- |
-| `/`          | —        | → `/login`  |
-| `/login`     | Auth     | Login       |
-| `/signup`    | Auth     | Signup      |
-| `/dashboard`       | App shell (auth) | Clothes grid   |
-| `/dashboard/upload`| App shell (auth) | Add clothes    |
+| Path                | Layout           | Page         |
+| ------------------- | ---------------- | ------------ |
+| `/`                 | —                | → `/login`   |
+| `/login`            | Auth             | Login        |
+| `/signup`           | Auth             | Signup       |
+| `/dashboard`        | App shell (auth) | Clothes grid |
+| `/dashboard/upload` | App shell (auth) | Add clothes  |
 
 Phase 1 includes JWT auth (Zustand + `localStorage`), protected dashboard routes, and clothes CRUD UI against the FastAPI backend.

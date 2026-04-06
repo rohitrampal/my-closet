@@ -1,6 +1,8 @@
 {
   "app": {
-    "name": "Wardrobe"
+    "name": "My Closet",
+    "documentTitle": "My Closet — Your AI Stylist",
+    "metaDescription": "Your AI stylist that helps you choose outfits from your own clothes."
   },
   "auth": {
     "login": "Login",
@@ -9,8 +11,24 @@
     "password": "Password",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
-    "loginSubtitle": "Sign in to manage your wardrobe.",
-    "signupSubtitle": "Create an account to get started."
+    "loginSubtitle": "Sign in to manage your closet.",
+    "signupSubtitle": "Create an account to get started.",
+    "forgotPassword": "Forgot password?",
+    "forgotTitle": "Forgot password",
+    "forgotSubtitle": "Enter your email. If an account exists, you’ll get reset instructions.",
+    "forgotSubmit": "Send reset link",
+    "forgotToast": "If an account exists for that email, check your inbox for next steps.",
+    "resetTitle": "Reset password",
+    "resetSubtitle": "Choose a new password for your account.",
+    "resetSubmit": "Update password",
+    "resetToast": "Password saved. You can sign in with your new password.",
+    "resetMissingToken": "This page needs a valid link from your email. Open the reset link from your inbox, or request a new one.",
+    "resetPasswordMismatch": "Passwords must match.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "backToLogin": "Back to login",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -21,22 +39,70 @@
     "logout": "Log out",
     "mainNav": "Main navigation"
   },
+  "splash": {
+    "loading": "Your style is loading...",
+    "aria": "App loading",
+    "logoAlt": "My Closet logo"
+  },
   "common": {
     "language": "Language",
-    "theme": "Theme",
-    "light": "Light",
-    "dark": "Dark",
     "loading": "Loading",
     "cancel": "Cancel",
-    "retry": "Retry"
+    "retry": "Retry",
+    "emDash": "—"
+  },
+  "onboarding": {
+    "welcomeTitle": "Welcome to My Closet 💖",
+    "step1": "Add 3–5 clothes",
+    "step2": "Generate your first outfit",
+    "cta": "Start styling →"
   },
   "dashboard": {
     "title": "Dashboard",
-    "subtitle": "Your saved clothes."
+    "subtitle": "Your saved clothes.",
+    "emptyTitle": "Your closet is empty 👗",
+    "emptySubtitle": "Let's add your first outfit"
+  },
+  "premium": {
+    "title": "My Closet Premium",
+    "subtitle": "Smarter matching, unlimited rolls, and the full stylist experience.",
+    "perk1": "Unlimited outfit generations every day",
+    "perk2": "Full stylist mode — three curated directions at once",
+    "perk3": "Stronger personalization and ML ranking (no random exploration)",
+    "alreadyActive": "Premium is active on your account. Enjoy the upgraded experience.",
+    "howToUpgrade": "Pay securely with UPI, cards, or net banking. Your account upgrades instantly after payment.",
+    "unlockCta": "Unlock unlimited outfits ✨",
+    "priceMonthly": "₹{{price}}/month",
+    "priceLoading": "Loading price…",
+    "priceUnavailable": "Price unavailable",
+    "socialProof": "Join users styling smarter every day 💖",
+    "welcomeBannerLine1": "You're now on Premium ✨",
+    "welcomeBannerLine2": "Enjoy smarter styling",
+    "welcomeBannerDismiss": "Got it",
+    "backToOutfits": "Back to outfit generator",
+    "upgradeLegalPrefix": "By upgrading you agree to our ",
+    "upgradeLegalAnd": " and ",
+    "upgradeLegalSuffix": ".",
+    "compare": {
+      "title": "See the difference",
+      "freeLabel": "Free",
+      "premiumLabel": "Premium ✨",
+      "freePoint1": "Limited outfits/day",
+      "freePoint2": "Some randomness",
+      "freePoint3": "Basic styling",
+      "premiumPoint1": "Unlimited outfits",
+      "premiumPoint2": "Best match selection",
+      "premiumPoint3": "Advanced stylist mode"
+    }
   },
   "outfit": {
     "title": "Outfit generator",
-    "subtitle": "Pick occasion and weather, then build a look from your wardrobe.",
+    "subtitle": "Pick occasion and weather, then build a look from your closet.",
+    "emptyUnlock": "Add a few clothes to unlock your outfits ✨",
+    "firstOutfitHeadline": "Here's your first outfit ✨",
+    "firstOutfitLoadingTitle": "Creating your first outfit ✨",
+    "firstOutfitLoadingSubtext": "This might actually surprise you 👀",
+    "firstOutfitRetention": "Add more clothes to get even better outfits 💖",
     "occasion": "Occasion",
     "weather": "Weather",
     "generate": "Generate outfit",
@@ -80,6 +146,21 @@
       "cold": "Cold"
     },
     "stylistBadge": "Stylist pick",
+    "premiumMatchBadge": "✨ Premium match",
+    "generationsToday": "{{used}} of {{limit}} free generations today",
+    "premiumUnlimited": "Premium: unlimited generations",
+    "stylistFreePreview": "Free preview: one curated look. Premium unlocks all three stylist options.",
+    "dailyLimitTitle": "You've reached your daily limit",
+    "dailyLimitBody": "Come back tomorrow or upgrade to Premium for unlimited outfit generations.",
+    "dailyLimitBanner": "You've used all free generations for today. Upgrade to Premium for unlimited access.",
+    "dailyLimitModalTitle": "You've used all free outfits today 😔",
+    "dailyLimitModalSubtitle": "Unlock unlimited styling and better matches ✨",
+    "dailyLimitModalUpgrade": "Unlock unlimited outfits ✨",
+    "dailyLimitModalTomorrow": "Try again tomorrow",
+    "premiumFirstWow": "✨ This is your premium-styled outfit",
+    "premiumLockedTitle": "Another stylist direction",
+    "premiumLockedSubtitle": "Premium includes three curated outfit options for every roll.",
+    "upgradeToPremium": "Unlock unlimited outfits ✨",
     "stylistHint": "Curated for your closet — tweak with a new roll anytime.",
     "standardMode": "Standard",
     "stylistMode": "Stylist mode",
@@ -115,8 +196,51 @@
   },
   "clothes": {
     "uploadTitle": "Upload",
-    "uploadSubtitle": "Add a piece using an image URL (file uploads can come later).",
-    "uploadAction": "Upload",
+    "uploadSubtitle": "We suggest type, color, and style from your photo.\nConfirm or edit — we only save what you approve ✨",
+    "uploadAction": "Add to closet",
+    "photoAlt": "Clothing photo",
+    "uploadPhotoLabel": "Photo",
+    "uploadDropHint": "Drag a photo here, or use the buttons below",
+    "uploadPickGallery": "Choose from gallery",
+    "uploadUseCamera": "Take a photo",
+    "uploadChangePhoto": "Remove & pick another",
+    "uploadPreparing": "Getting your photo ready…",
+    "uploadAnalyzing": "Detecting type, color & style…",
+    "uploadAnalyzingOutfit": "Analyzing your outfit...",
+    "uploadDetectedPrefix": "Detected:",
+    "uploadDetectedConfidence": "Detected ({{pct}}% sure)",
+    "uploadWeDetected": "We detected:",
+    "uploadRetryAi": "Try again with AI 🔁",
+    "uploadConfirm": "Confirm",
+    "uploadEdit": "Edit",
+    "uploadSaveToCloset": "Save to closet",
+    "uploadDetailsSection": "Details",
+    "uploadSavedToCloset": "Added to your closet",
+    "uploadSaveNeedsFields": "Choose type, color, and style before saving.",
+    "uploadAnalyzeSourceGemini": "Suggested with Google AI (you can still edit).",
+    "uploadAnalyzeSourceOpenAI": "Suggested with OpenAI vision (you can still edit).",
+    "uploadAnalyzeSourceGroq": "Suggested with Groq vision (you can still edit).",
+    "uploadAnalyzeSourceHuggingFace": "Suggested with Hugging Face vision (you can still edit).",
+    "uploadAnalyzeSourceSarvam": "Suggested with Sarvam AI (you can still edit).",
+    "uploadAnalyzeSourceFallback": "Suggested with on-device analysis (you can still edit).",
+    "uploadAddMore": "Add more photos",
+    "uploadMaxItems": "You can add up to {{max}} photos at once.",
+    "uploadRemoveSlot": "Remove",
+    "uploadSubmitting": "Saving…",
+    "firstUploadBanner": "Add 3–5 clothes to get your first outfit ✨",
+    "styleOther": "Other style",
+    "styleOtherPlaceholder": "Type a custom style",
+    "styleChips": {
+      "casual": "Casual",
+      "formal": "Formal",
+      "sporty": "Sporty",
+      "party": "Party",
+      "ethnic": "Ethnic"
+    },
+    "uploadDetailsOptional": "Details (optional — edit if you like)",
+    "selectTypeOptional": "Let AI choose",
+    "uploadInvalidType": "Please choose an image file.",
+    "uploadCompressFailed": "Could not process that image. Try another photo.",
     "imageUrl": "Image URL",
     "type": "Type",
     "selectType": "Select type",
@@ -142,11 +266,19 @@
     "required": "This field is required",
     "email": "Enter a valid email",
     "passwordMin": "Use at least 8 characters",
+    "passwordStrength": "Include at least one letter and one number",
     "typeRequired": "Choose a type",
     "typeInvalid": "Invalid type"
   },
   "errors": {
-    "sessionExpired": "Your session expired. Please sign in again."
+    "sessionExpired": "Your session expired. Please sign in again.",
+    "generic": "Something went wrong. Please try again.",
+    "requestFailed": "Request failed. Please try again.",
+    "internalError": "Something went wrong on our end. Please try again in a moment.",
+    "emailAlreadyRegistered": "An account with this email already exists.",
+    "invalidCredentials": "Incorrect email or password.",
+    "invalidResetToken": "This reset link is invalid or expired. Request a new one from the login page.",
+    "validationFailed": "Please check your input and try again."
   },
   "admin": {
     "title": "Admin",
@@ -156,7 +288,15 @@
       "outfits": "Outfits generated",
       "likeRate": "Like rate"
     },
+    "productAnalytics": {
+      "heading": "Client-tracked funnel",
+      "generates": "Successful outfit generations",
+      "upgradeClicks": "Upgrade clicks",
+      "payments": "Payment successes",
+      "conversion": "Payment / upgrade click rate"
+    },
     "usersHeading": "Users",
+    "columnId": "ID",
     "usersCount": "{{total}} accounts",
     "premium": "Premium",
     "grantPremium": "Grant premium",
@@ -172,10 +312,11 @@
     "toastSettingsSaved": "ML settings saved.",
     "toastFlagsUpdated": "Feature flags updated.",
     "previewHeading": "Live outfit preview",
-    "previewSubtitle": "Runs generation against your admin wardrobe using current ML settings (not counted in analytics).",
+    "previewSubtitle": "Runs generation against your admin closet using current ML settings (not counted in analytics).",
     "testOutfit": "Test outfit",
     "testingOutfit": "Generating…",
     "ruleScore": "Rule score",
+    "scoreDebug": "Matcher diagnostics",
     "mlScore": "ML score",
     "previewWhy": "Why this works",
     "chartsLoading": "Loading charts…",
@@ -186,16 +327,186 @@
     "chartLikeRateHint": "Share of likes among feedback submitted each day (last 30 days, UTC).",
     "chartLikeRateSeries": "Like rate"
   },
+  "landing": {
+    "primaryCta": "Try your first outfit in 10 seconds",
+    "navAria": "Primary",
+    "navAppName": "My Closet",
+    "navLogin": "Log in",
+    "stickyCtaAria": "Get started",
+    "heroEyebrow": "My Closet — Your AI Stylist",
+    "heroTitle1": "You already have great clothes.",
+    "heroTitle2": "You just don't know what to wear.",
+    "heroSub1": "Let your AI stylist decide in seconds.",
+    "heroSub2": "No more outfit stress. No more overthinking.",
+    "heroHowItWorks": "↓ See how it works",
+    "heroCardBadge": "Your look · preview",
+    "heroDemoTop": "Merino crew",
+    "heroDemoBottom": "Wide pleat trousers",
+    "heroDemoFootwear": "Leather loafer",
+    "featuresEyebrow": "Features",
+    "featuresTitle": "Everything you need",
+    "featuresSubtitle": "Human-friendly through and through.",
+    "features": {
+      "f1": {
+        "title": "Knows what works together",
+        "body": "No more guessing if colors and cuts clash."
+      },
+      "f2": {
+        "title": "Remembers your style",
+        "body": "Your taste sticks—so suggestions feel like you."
+      },
+      "f3": {
+        "title": "Gets better every time you use it",
+        "body": "The more you interact, the sharper it gets."
+      },
+      "f4": {
+        "title": "Stops you from repeating outfits",
+        "body": "Fresh combos so you're not stuck in a rut."
+      },
+      "f5": {
+        "title": "Understands your vibe",
+        "body": "From chill to sharp—it reads the mood you want."
+      },
+      "f6": {
+        "title": "Adapts to your mood",
+        "body": "Off day or big day—it meets you where you are."
+      }
+    },
+    "premiumEyebrow": "My Closet Premium",
+    "premiumTitle": "Want even better outfits?",
+    "premiumSub1": "Unlock smarter styling, deeper personalization,",
+    "premiumSub2": "and outfits that just feel right.",
+    "premiumSimplePricing": "Simple pricing",
+    "premiumPrice": "$12",
+    "premiumPerMonth": "/mo",
+    "premiumEarlyAccess": "Early access",
+    "premiumPerk1": "Unlimited AI outfit generations",
+    "premiumPerk2": "Priority seasonal capsule drops",
+    "premiumPerk3": "Advanced palette & body fit tuning",
+    "premiumPerk4": "Share templates & moodboards",
+    "premiumCancelNote": "Cancel anytime · No hidden fees",
+    "finalEyebrow": "Used by people who hate choosing outfits",
+    "finalTitle": "Stop thinking. Just get dressed.",
+    "finalSub": "Your next outfit is already waiting.",
+    "finalHasAccess": "I already have access",
+    "footerMade": "Made with My Closet",
+    "footerHow": "How it works",
+    "footerLogin": "Log in",
+    "footerSignup": "Sign up",
+    "demo": {
+      "eyebrow": "Live preview",
+      "title": "See what your closet can actually do",
+      "sub1": "These outfits are generated from your own clothes.",
+      "sub2": "Nothing new. Just smarter combinations.",
+      "fromPieces": "From pieces you already own",
+      "outfitMoodAria": "{{name}} — outfit mood",
+      "o1": {
+        "name": "Gallery opening",
+        "tag": "Evening",
+        "piece1": "Drape blazer",
+        "piece2": "Silk slip",
+        "piece3": "Strappy heel"
+      },
+      "o2": {
+        "name": "Monday focus",
+        "tag": "Work",
+        "piece1": "Tailored trousers",
+        "piece2": "Fine knit",
+        "piece3": "Loafer"
+      },
+      "o3": {
+        "name": "Sunday slow",
+        "tag": "Casual",
+        "piece1": "Oversized coat",
+        "piece2": "Wide denim",
+        "piece3": "Trainer"
+      }
+    },
+    "howItWorks": {
+      "eyebrow": "How it works",
+      "title": "Three calm steps",
+      "subtitle": "No endless scrolling. Your closet becomes a living moodboard—then the AI does the pairing.",
+      "stepLabel": "Step {{n}}",
+      "s1": {
+        "title": "Digitize your closet",
+        "body": "Snap or upload pieces. We learn your palette, fit, and favorites."
+      },
+      "s2": {
+        "title": "Set the vibe",
+        "body": "Brunch, boardroom, or both—we match the occasion and the weather."
+      },
+      "s3": {
+        "title": "Wear the look",
+        "body": "Curated outfits with rationale. Save, tweak, and share in one tap."
+      }
+    },
+    "socialProof": {
+      "title": "People are actually loving this",
+      "fiveStars": "⭐⭐⭐⭐⭐",
+      "q1": "I used to stare at my clothes for 20 mins… now it just tells me what to wear 😭",
+      "q2": "It feels like I have a personal stylist in my phone",
+      "q3": "I didn't realize how bad my outfit choices were until this 💀"
+    },
+    "beforeAfter": {
+      "title1": "From “I have nothing to wear”",
+      "title2": "to “this looks perfect”",
+      "beforeLabel": "Before",
+      "beforeTitle": "What I used to wear",
+      "beforeLine1": "Overthinking.",
+      "beforeLine2": "Trying random combinations.",
+      "beforeLine3": "Still not satisfied.",
+      "afterLabel": "After",
+      "afterTitle": "AI styled outfit",
+      "afterLine1": "Instant outfit.",
+      "afterLine2": "Matches your style.",
+      "afterLine3": "Feels right every time."
+    }
+  },
+  "legal": {
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "refunds": "Refunds",
+    "contact": "Contact",
+    "footerAria": "Legal and contact links",
+    "backHome": "Home",
+    "lastUpdated": "Last updated: {{date}}",
+    "hindiNotice": "Legal text on this page is provided in English for accuracy.",
+    "termsTitle": "Terms of Use",
+    "privacyTitle": "Privacy Policy",
+    "refundsTitle": "Refund & cancellation policy",
+    "contactTitle": "Contact",
+    "contactIntro": "Use the details below for support, billing questions, and legal notices related to My Closet.",
+    "contactProduct": "Product",
+    "contactSupportHeading": "Customer support",
+    "contactEmailLabel": "Email",
+    "contactNoEmail": "Add VITE_PUBLIC_SUPPORT_EMAIL to your frontend environment so customers can reach you. Until then, use in-app flows where available.",
+    "contactLegalHeading": "Legal entity & address",
+    "contactLegalBody": "Replace this section with your registered business name, address, and GST details (if applicable) before going live. Razorpay and regulators typically expect a reachable business identity on your website.",
+    "contactPaymentsHeading": "Payment issues",
+    "contactPaymentsBody": "For failed charges or receipt questions, contact us with your account email and transaction reference. Payment processing is handled by our payment partner; include any order or payment ID shown after checkout.",
+    "contactFormIntro": "Send a message below and we’ll reply by email.",
+    "contactFormName": "Name",
+    "contactFormEmail": "Your email",
+    "contactFormMessage": "Message",
+    "contactFormSubmit": "Send message",
+    "contactFormSubmitting": "Sending…"
+  },
   "toasts": {
     "loggedIn": "Welcome back!",
     "signedUp": "Account created.",
     "loggedOut": "You are logged out.",
-    "clothesCreated": "Item saved.",
+    "clothesCreated": "Added to your closet 💖",
+    "clothesCreatedBatch": "Added {{count}} pieces to your closet 💖",
     "clothesDeleted": "Item removed.",
     "savedPreference": "Saved your preference",
     "outfitSaved": "Outfit saved.",
     "savedOutfitDeleted": "Removed from saved outfits.",
     "outfitLiked": "Love it — we’ll lean into this vibe next time.",
-    "outfitDisliked": "Thanks — we’ll steer away from similar mixes."
+    "outfitDisliked": "Thanks — we’ll steer away from similar mixes.",
+    "premiumPaymentSuccess": "Welcome to Premium ✨",
+    "contactSent": "Message sent. We’ll get back to you soon.",
+    "premiumPaymentFailed": "Payment could not be completed.",
+    "premiumPaymentsDisabled": "Payments are temporarily unavailable.",
+    "premiumCheckoutLoadFailed": "Checkout could not be started. Try again."
   }
 }

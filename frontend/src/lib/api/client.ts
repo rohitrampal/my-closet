@@ -4,12 +4,13 @@ import { getErrorMessage } from './errors'
 import { i18n } from '@/lib/i18n/config'
 import { navigateToLogin } from '@/lib/navigation'
 import { useAuthStore } from '@/stores/useAuthStore'
+import { useUiStore } from '@/stores/useUiStore'
 
-const baseURL =
+export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? 'http://localhost:8000'
 
 export const apiClient = axios.create({
-  baseURL,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -21,6 +22,8 @@ apiClient.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  const lang = useUiStore.getState().language
+  config.headers['X-App-Language'] = lang
   return config
 })
 
@@ -36,7 +39,8 @@ apiClient.interceptors.response.use(
       if (
         url.includes('/auth/login') ||
         url.includes('/auth/register') ||
-        url.includes('/auth/signup')
+        url.includes('/auth/signup') ||
+        url.includes('/auth/logout')
       ) {
         return Promise.reject(error)
       }

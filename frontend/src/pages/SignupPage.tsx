@@ -10,6 +10,8 @@ import { AuthToolbar } from '@/components/layout/AuthToolbar'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
+import { PasswordInput } from '@/components/ui/PasswordInput'
+import { Heading, Subtext } from '@/components/ui/Typography'
 import { registerRequest } from '@/lib/api/auth'
 import { getErrorMessage } from '@/lib/api/errors'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -43,21 +45,19 @@ export function SignupPage() {
       navigate('/dashboard', { replace: true })
     },
     onError: (error: unknown) => {
-      toast.error(getErrorMessage(error))
+      toast.error(getErrorMessage(error, t))
     },
   })
 
   return (
     <div>
       <AuthToolbar />
-      <Card className="p-6 sm:p-8">
+      <Card radius="button" padding="none" className="p-6 shadow-soft sm:p-8">
         <div className="mb-6 space-y-1">
-          <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <Heading as="h1" variant="title" className="!text-xl sm:!text-2xl">
             {t('auth.signup')}
-          </h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {t('auth.signupSubtitle')}
-          </p>
+          </Heading>
+          <Subtext>{t('auth.signupSubtitle')}</Subtext>
         </div>
         <form
           className="space-y-4"
@@ -73,9 +73,8 @@ export function SignupPage() {
             error={form.formState.errors.email?.message}
             {...form.register('email')}
           />
-          <Input
+          <PasswordInput
             id="signup-password"
-            type="password"
             autoComplete="new-password"
             label={t('auth.password')}
             placeholder={t('auth.passwordPlaceholder')}
@@ -86,10 +85,10 @@ export function SignupPage() {
             {mutation.isPending ? t('common.loading') : t('auth.signup')}
           </Button>
         </form>
-        <p className="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-6 text-center text-sm text-muted">
           <Link
             to="/login"
-            className="font-medium text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
+            className="font-medium text-primary underline-offset-4 hover:text-primary-soft hover:underline"
           >
             {t('auth.login')}
           </Link>

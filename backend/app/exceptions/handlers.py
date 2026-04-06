@@ -33,9 +33,12 @@ def register_exception_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(AppException)
     async def app_exception_handler(_request: Request, exc: AppException) -> JSONResponse:
+        # Do not pass reserved LogRecord names in ``extra`` (e.g. ``message``, ``status``, ``module``).
         logger.warning(
-            "app_exception",
-            extra={"error_code": exc.error_code, "status": exc.status_code, "message": exc.message},
+            "app_exception code=%r http_status=%s detail=%r",
+            exc.error_code,
+            exc.status_code,
+            exc.message,
         )
         return JSONResponse(
             status_code=exc.status_code,

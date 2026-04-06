@@ -4,7 +4,7 @@ import enum
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, Enum, ForeignKey, Index, String, func
+from sqlalchemy import DateTime, Enum, Float, ForeignKey, Index, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
@@ -33,13 +33,19 @@ class Clothes(Base):
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
     )
-    image_url: Mapped[str] = mapped_column(String(2048), nullable=False)
+    image_url: Mapped[str] = mapped_column(Text, nullable=False)
     clothes_type: Mapped[ClothesType] = mapped_column(
-        Enum(ClothesType, name="clothes_type_enum", native_enum=True),
+        Enum(
+            ClothesType,
+            name="clothes_type_enum",
+            native_enum=True,
+            values_callable=lambda cls: [m.value for m in cls],
+        ),
         nullable=False,
     )
     color: Mapped[str] = mapped_column(String(100), nullable=False)
     style: Mapped[str] = mapped_column(String(100), nullable=False)
+    detection_confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

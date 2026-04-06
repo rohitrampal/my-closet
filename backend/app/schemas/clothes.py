@@ -2,9 +2,14 @@
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from typing import Literal
+
+from pydantic import BaseModel, Field, field_validator
 
 from app.models.clothes import ClothesType
+
+# HTTP(S) URLs only — no inline base64 in API or DB.
+_MAX_IMAGE_URL_CHARS = 2048
 
 
 class ClothesCreate(BaseModel):
@@ -13,8 +18,8 @@ class ClothesCreate(BaseModel):
     image_url: str = Field(
         ...,
         min_length=1,
-        max_length=2048,
-        description="URL pointing to an image of the item (used for auto-tagging when fields are omitted)",
+        max_length=_MAX_IMAGE_URL_CHARS,
+        description="Public https URL of the garment image (after upload to object storage)",
     )
     clothes_type: ClothesType | None = Field(
         default=None,
@@ -30,6 +35,54 @@ class ClothesCreate(BaseModel):
         max_length=100,
         description="Style; if omitted, simple pixel-based hint and URL heuristics (fallback: casual)",
     )
+    detection_confidence: float | None = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+        description="Optional AI tag confidence when the item was saved from analyze flow",
+    )
+
+    @field_validator("image_url")
+    @classmethod
+    def http_url_only(cls, v: str) -> str:
+        s = v.strip()
+        low = s.lower()
+        if low.startswith("data:") or low.startswith("javascript:"):
+            raise ValueError("image_url must be an https URL, not an inline data or script URL")
+        if not (low.startswith("https://") or low.startswith("http://")):
+            raise ValueError("image_url must be an http(s) URL")
+        return s
+
+
+class ClothesImageUploadResponse(BaseModel):
+    """Public URL after a successful Storage upload."""
+
+    url: str = Field(..., min_length=1, max_length=_MAX_IMAGE_URL_CHARS)
+
+
+class ClothesAnalyzeResponse(BaseModel):
+    """Suggested tags from vision + heuristics (same shape as create merge)."""
+
+    type: str = Field(..., description="ClothesType value string")
+    color: str
+    style: str
+    confidence: float = Field(
+        ...,
+        ge=0.0,
+        le=1.0,
+        description="Heuristic confidence for the suggestion (Gemini vs local)",
+    )
+    source: Literal[
+        "gemini",
+        "openai",
+        "groq",
+        "huggingface",
+        "sarvam",
+        "fallback",
+    ] = Field(
+        ...,
+        description="Which vision provider produced the suggestion (multi-provider chain + local fallback)",
+    )
 
 
 class ClothesResponse(BaseModel):
@@ -43,6 +96,7 @@ class ClothesResponse(BaseModel):
     clothes_type: ClothesType
     color: str
     style: str
+    detection_confidence: float | None = None
     created_at: datetime
 
 

@@ -8,12 +8,14 @@ from sqlalchemy import func, select
 from app.dependencies.auth import CurrentAdmin
 from app.dependencies.database import DbSession
 from app.exceptions.app_exceptions import AppException
+from app.models.analytics_event import AnalyticsEvent
 from app.models.clothes import Clothes
 from app.models.outfit_feedback import OutfitFeedback
 from app.models.system_settings import SystemSettings
 from app.models.user import User
 from app.schemas.admin import (
     AdminAnalyticsResponse,
+    AdminAnalyticsSummaryResponse,
     AdminDashboardResponse,
     AdminPremiumPatch,
     AdminSystemSettingsPatch,
@@ -22,17 +24,74 @@ from app.schemas.admin import (
     AdminTestOutfitResponse,
     AdminUserItem,
     AdminUserListResponse,
+    AdminVisionProviderStatItem,
+    AdminVisionStatsResponse,
 )
 from app.schemas.clothes import ClothesResponse
 from app.schemas.outfit import OutfitGenerateResponse
 from app.services.admin_analytics import get_admin_analytics
 from app.services.admin_audit import log_admin_action
-from app.services.outfit_matcher import OutfitGenerationError, generate_outfit, scores_for_admin_preview
+from app.services.outfit_match_params import subscriber_match_kwargs
+from app.services.outfit_matcher import (
+    OutfitGenerationError,
+    generate_outfit,
+    outfit_matcher_debug_scores,
+    scores_for_admin_preview,
+)
 from app.services.personalization import load_personalization_boosts
+from app.services.clothes_vision_runtime import get_vision_runtime
 from app.services.runtime_settings import get_system_settings
 
 router = APIRouter()
 _MAX_PAGE = 100
+
+_EVENT_OUTFIT_SUCCESS = "outfit_generated_success"
+_EVENT_UPGRADE_CLICK = "upgrade_clicked"
+_EVENT_PAYMENT_SUCCESS = "payment_success"
+
+
+@router.get("/vision-stats", response_model=AdminVisionStatsResponse)
+async def admin_vision_stats(_admin: CurrentAdmin) -> AdminVisionStatsResponse:
+    """In-process vision pipeline analytics (resets on API restart)."""
+    raw = get_vision_runtime().admin_snapshot_payload()
+    return AdminVisionStatsResponse(
+        last_success_provider=raw["last_success_provider"],
+        fast_path_hits_total=raw["fast_path_hits_total"],
+        providers=[AdminVisionProviderStatItem(**row) for row in raw["providers"]],
+    )
+
+
+@router.get("/analytics-summary", response_model=AdminAnalyticsSummaryResponse)
+async def admin_analytics_summary(db: DbSession, _admin: CurrentAdmin) -> AdminAnalyticsSummaryResponse:
+    """Funnel stats from ingested client analytics events."""
+    gen = int(
+        (
+            await db.execute(
+                select(func.count()).select_from(AnalyticsEvent).where(AnalyticsEvent.event_name == _EVENT_OUTFIT_SUCCESS)
+            )
+        ).scalar_one()
+    )
+    upgrades = int(
+        (
+            await db.execute(
+                select(func.count()).select_from(AnalyticsEvent).where(AnalyticsEvent.event_name == _EVENT_UPGRADE_CLICK)
+            )
+        ).scalar_one()
+    )
+    payments = int(
+        (
+            await db.execute(
+                select(func.count()).select_from(AnalyticsEvent).where(AnalyticsEvent.event_name == _EVENT_PAYMENT_SUCCESS)
+            )
+        ).scalar_one()
+    )
+    rate = float(payments / upgrades) if upgrades else 0.0
+    return AdminAnalyticsSummaryResponse(
+        total_generates=gen,
+        total_upgrades_clicked=upgrades,
+        total_payments=payments,
+        conversion_rate=rate,
+    )
 
 
 @router.post("/test-outfit", response_model=AdminTestOutfitResponse)
@@ -46,10 +105,7 @@ async def admin_test_outfit(
     Uses current system ML settings and personalization for the admin account.
     """
     runtime = await get_system_settings(db)
-    ml_kw: dict[str, float] = {
-        "ml_explore_prob": float(runtime.ml_exploration_rate),
-        "ml_weight": float(runtime.ml_weight),
-    }
+    match_kw = subscriber_match_kwargs(runtime, is_premium=admin.is_premium)
     result = await db.execute(select(Clothes).where(Clothes.user_id == admin.id))
     items = list(result.scalars().all())
     boosts = await load_personalization_boosts(db, admin.id)
@@ -63,15 +119,17 @@ async def admin_test_outfit(
             personalization=boosts,
             premium_mode=admin.is_premium,
             cache_user_id=None,
-            **ml_kw,
+            language=body.language.value,
+            **match_kw,
         )
-    except OutfitGenerationError:
+    except OutfitGenerationError as exc:
         raise AppException(
-            "Add more clothes to generate outfits",
+            exc.message,
             status_code=400,
-            error_code="OUTFIT_INSUFFICIENT",
+            error_code=exc.code,
         ) from None
 
+    wardrobe_by_id = {c.id: c for c in items}
     rule_score, ml_score = scores_for_admin_preview(
         top,
         bottom,
@@ -80,9 +138,26 @@ async def admin_test_outfit(
         body.weather.value,
         personalization=boosts,
         premium_mode=admin.is_premium,
-        ml_weight=ml_kw["ml_weight"],
-        repeat_user_id=None,
+        pers_strength=match_kw["pers_strength"],
+        ml_weight=match_kw["ml_weight"],
+        repeat_user_id=admin.id,
+        wardrobe_by_id=wardrobe_by_id,
     )
+    score_debug = None
+    if body.debug_scores:
+        score_debug = outfit_matcher_debug_scores(
+            top,
+            bottom,
+            footwear,
+            body.occasion.value,
+            body.weather.value,
+            personalization=boosts,
+            premium_mode=admin.is_premium,
+            pers_strength=match_kw["pers_strength"],
+            ml_weight=match_kw["ml_weight"],
+            repeat_user_id=admin.id,
+            wardrobe_by_id=wardrobe_by_id,
+        )
     return AdminTestOutfitResponse(
         outfit=OutfitGenerateResponse(
             top=ClothesResponse.model_validate(top),
@@ -92,6 +167,7 @@ async def admin_test_outfit(
         ),
         ml_score=ml_score,
         rule_score=rule_score,
+        score_debug=score_debug,
     )
 
 

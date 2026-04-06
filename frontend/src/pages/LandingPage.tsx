@@ -18,9 +18,8 @@ function BelowFoldFallback() {
 export function LandingPage() {
   return (
     <LandingSmoothScroll>
-      <div className="min-h-dvh bg-[#07060b] pb-24 text-zinc-100 selection:bg-fuchsia-500/30 selection:text-white md:pb-0">
-        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(168,85,247,0.18),transparent_50%)]" />
-        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_100%_50%,rgba(236,72,153,0.08),transparent_45%)]" />
+      <div className="min-h-dvh bg-app pb-24 text-foreground selection:bg-accent/25 selection:text-foreground md:pb-0">
+        <div className="landing-ambient" aria-hidden />
         <LandingNav />
         <main>
           <HeroSection />

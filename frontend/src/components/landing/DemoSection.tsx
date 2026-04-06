@@ -1,32 +1,23 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GlassCard } from '@/components/landing/GlassCard'
 import { Reveal } from '@/components/landing/Reveal'
 import { TiltCard } from '@/components/landing/TiltCard'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
-const outfits = [
-  {
-    name: 'Gallery opening',
-    tag: 'Evening',
-    gradient: 'from-violet-500/40 via-fuchsia-500/30 to-rose-400/25',
-    pieces: ['Drape blazer', 'Silk slip', 'Strappy heel'],
-  },
-  {
-    name: 'Monday focus',
-    tag: 'Work',
-    gradient: 'from-indigo-500/35 via-purple-500/25 to-pink-400/20',
-    pieces: ['Tailored trousers', 'Fine knit', 'Loafer'],
-  },
-  {
-    name: 'Sunday slow',
-    tag: 'Casual',
-    gradient: 'from-rose-400/35 via-fuchsia-500/25 to-violet-600/20',
-    pieces: ['Oversized coat', 'Wide denim', 'Trainer'],
-  },
-]
+const DEMO_KEYS = ['o1', 'o2', 'o3'] as const
+
+const GRADIENTS = [
+  'from-violet-500/40 via-fuchsia-500/30 to-rose-400/25',
+  'from-indigo-500/35 via-purple-500/25 to-pink-400/20',
+  'from-rose-400/35 via-fuchsia-500/25 to-violet-600/20',
+] as const
+
+const PIECE_SUFFIXES = ['piece1', 'piece2', 'piece3'] as const
 
 export function DemoSection() {
+  const { t } = useTranslation()
   const reduce = useReducedMotion()
   const isLg = useMediaQuery('(min-width: 1024px)')
   const ref = useRef<HTMLElement>(null)
@@ -45,16 +36,14 @@ export function DemoSection() {
       <div className="mx-auto max-w-5xl">
         <Reveal className="text-center">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-fuchsia-300/80">
-            Live preview
+            {t('landing.demo.eyebrow')}
           </p>
-          <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-            See what your wardrobe can actually do
+          <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            {t('landing.demo.title')}
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-zinc-400 sm:text-base">
-            <span className="block">
-              These outfits are generated from your own clothes.
-            </span>
-            <span className="mt-1 block">Nothing new. Just smarter combinations.</span>
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+            <span className="block">{t('landing.demo.sub1')}</span>
+            <span className="mt-1 block">{t('landing.demo.sub2')}</span>
           </p>
         </Reveal>
 
@@ -62,51 +51,50 @@ export function DemoSection() {
           className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5 md:mt-10 lg:grid-cols-3 lg:gap-5"
           style={{ y }}
         >
-          {outfits.map((outfit, i) => (
-            <Reveal key={outfit.name} delay={i * 0.05} className="h-full">
-              <TiltCard className="h-full">
-                <GlassCard className="group flex h-full flex-col overflow-hidden p-0">
-                  <div
-                    className={`relative h-44 bg-gradient-to-br ${outfit.gradient} sm:h-48`}
-                    role="img"
-                    aria-label={`${outfit.name} outfit mood`}
-                  >
-                    <span className="absolute left-3 top-3 rounded-full bg-black/30 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white/90 backdrop-blur-md">
-                      {outfit.tag}
-                    </span>
-                    <motion.div
-                      className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
-                      aria-hidden
+          {DEMO_KEYS.map((key, i) => {
+            const name = t(`landing.demo.${key}.name`)
+            return (
+              <Reveal key={key} delay={i * 0.05} className="h-full">
+                <TiltCard className="h-full">
+                  <GlassCard padding="none" className="group flex h-full flex-col overflow-hidden">
+                    <div
+                      className={`relative h-44 bg-gradient-to-br ${GRADIENTS[i]} sm:h-48`}
+                      role="img"
+                      aria-label={t('landing.demo.outfitMoodAria', { name })}
                     >
-                      {!reduce && (
-                        <motion.div
-                          className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"
-                          animate={{ scale: [1, 1.15, 1] }}
-                          transition={{ duration: 4, repeat: Infinity }}
-                        />
-                      )}
-                    </motion.div>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="font-display text-lg font-semibold text-white">
-                      {outfit.name}
-                    </h3>
-                    <ul className="mt-3 space-y-1.5 text-sm text-zinc-400">
-                      {outfit.pieces.map((p) => (
-                        <li key={p} className="flex items-center gap-2">
-                          <span className="h-1 w-1 rounded-full bg-fuchsia-400/70" />
-                          {p}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-4 text-xs text-zinc-500">
-                      From pieces you already own
-                    </p>
-                  </div>
-                </GlassCard>
-              </TiltCard>
-            </Reveal>
-          ))}
+                      <span className="absolute left-3 top-3 rounded-full bg-black/30 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-foreground/90 backdrop-blur-md">
+                        {t(`landing.demo.${key}.tag`)}
+                      </span>
+                      <motion.div
+                        className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-hidden
+                      >
+                        {!reduce && (
+                          <motion.div
+                            className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/15 blur-2xl"
+                            animate={{ scale: [1, 1.15, 1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                          />
+                        )}
+                      </motion.div>
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <h3 className="font-display text-lg font-semibold text-foreground">{name}</h3>
+                      <ul className="mt-3 space-y-1.5 text-sm text-muted">
+                        {PIECE_SUFFIXES.map((suffix) => (
+                          <li key={suffix} className="flex items-center gap-2">
+                            <span className="h-1 w-1 rounded-full bg-fuchsia-400/70" />
+                            {t(`landing.demo.${key}.${suffix}`)}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-4 text-xs text-muted">{t('landing.demo.fromPieces')}</p>
+                    </div>
+                  </GlassCard>
+                </TiltCard>
+              </Reveal>
+            )
+          })}
         </motion.div>
       </div>
     </section>

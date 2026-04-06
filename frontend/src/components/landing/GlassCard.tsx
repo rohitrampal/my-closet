@@ -1,16 +1,20 @@
 import type { HTMLAttributes, ReactNode } from 'react'
+import { Card, type CardPadding } from '@/components/ui/Card'
 
 type GlassCardProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode
+  padding?: CardPadding
 }
 
-export function GlassCard({ children, className = '', ...rest }: GlassCardProps) {
+export function GlassCard({
+  children,
+  className = '',
+  padding = 'md',
+  ...rest
+}: GlassCardProps) {
   return (
-    <div
-      className={`rounded-xl border border-white/10 bg-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-xl ${className}`}
-      {...rest}
-    >
+    <Card padding={padding} className={`shadow-glow ${className}`.trim()} {...rest}>
       {children}
-    </div>
+    </Card>
   )
 }

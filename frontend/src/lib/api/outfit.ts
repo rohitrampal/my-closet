@@ -1,5 +1,12 @@
 import { apiClient } from '@/lib/api/client'
 import type { ClothesType } from '@/lib/api/types'
+import { useUiStore } from '@/stores/useUiStore'
+
+export type AppLanguage = 'en' | 'hi'
+
+function appLanguage(): AppLanguage {
+  return useUiStore.getState().language
+}
 
 export const OCCASIONS = ['casual', 'party', 'wedding'] as const
 export type Occasion = (typeof OCCASIONS)[number]
@@ -21,16 +28,30 @@ export type ClothesApiPiece = {
   created_at: string
 }
 
+export type OutfitQuotaApi = {
+  used_today: number
+  daily_limit: number | null
+}
+
 export type OutfitGenerateApiResponse = {
   top: ClothesApiPiece
   bottom: ClothesApiPiece | null
   footwear: ClothesApiPiece
   /** Matcher rationale lines from `POST /outfit/generate` (optional for older responses). */
   reasons?: string[]
+  quota?: OutfitQuotaApi
 }
 
 export type OutfitStylistApiResponse = {
   options: StylistOptionApiResponse[]
+  quota: OutfitQuotaApi
+  stylist_tier: 'full' | 'preview'
+}
+
+export type OutfitUsageApiResponse = {
+  is_premium: boolean
+  used_today: number
+  daily_limit: number | null
 }
 
 export type StylistOptionLabel = 'Minimal' | 'Trendy' | 'Bold'
@@ -65,6 +86,7 @@ export type GenerateOutfitBundle = {
   raw: OutfitGenerateApiResponse
   /** Copy of matcher `reasons` for confidence UI (not sent with feedback). */
   reasons: string[]
+  quota?: OutfitQuotaApi
 }
 
 /** Map rationale count to a stable match score for display. */
@@ -111,6 +133,11 @@ function mapPiece(p: ClothesApiPiece): OutfitPiece {
   }
 }
 
+export async function fetchOutfitUsage(): Promise<OutfitUsageApiResponse> {
+  const { data } = await apiClient.get<OutfitUsageApiResponse>('/outfit/usage')
+  return data
+}
+
 export async function generateOutfitRequest(
   occasion: Occasion,
   weather: Weather
@@ -118,10 +145,12 @@ export async function generateOutfitRequest(
   const { data } = await apiClient.post<OutfitGenerateApiResponse>('/outfit/generate', {
     occasion,
     weather,
+    language: appLanguage(),
   })
   return {
     raw: data,
     reasons: data.reasons ?? [],
+    quota: data.quota,
     outfit: {
       top: mapPiece(data.top),
       bottom: data.bottom ? mapPiece(data.bottom) : null,
@@ -133,13 +162,16 @@ export async function generateOutfitRequest(
 export async function generateStylistRequest(
   occasion: Occasion,
   vibe: StylistVibe
-): Promise<{ options: StylistOption[] }> {
+): Promise<{ options: StylistOption[]; stylist_tier: 'full' | 'preview'; quota: OutfitQuotaApi }> {
   const { data } = await apiClient.post<OutfitStylistApiResponse>('/outfit/stylist', {
     occasion,
     vibe,
+    language: appLanguage(),
   })
 
   return {
+    stylist_tier: data.stylist_tier,
+    quota: data.quota,
     options: data.options.map((opt) => ({
       label: opt.label,
       outfit: {

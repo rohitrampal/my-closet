@@ -8,10 +8,17 @@ import { AuthLayout } from '@/components/layout/AuthLayout'
 import { RootLayout } from '@/components/layout/RootLayout'
 import { AdminPage } from '@/pages/AdminPage'
 import { DashboardPage } from '@/pages/DashboardPage'
+import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage'
 import { LoginPage } from '@/pages/LoginPage'
+import { ResetPasswordPage } from '@/pages/ResetPasswordPage'
 import { SignupPage } from '@/pages/SignupPage'
 import { OutfitPage } from '@/pages/OutfitPage'
+import { ContactPage } from '@/pages/ContactPage'
+import { PremiumUpgradePage } from '@/pages/PremiumUpgradePage'
+import { PrivacyPage } from '@/pages/PrivacyPage'
+// import { RefundsPage } from '@/pages/RefundsPage'
 import { SavedOutfitsPage } from '@/pages/SavedOutfitsPage'
+import { TermsPage } from '@/pages/TermsPage'
 import { UploadPage } from '@/pages/UploadPage'
 
 export const router = createBrowserRouter([
@@ -39,8 +46,28 @@ export const router = createBrowserRouter([
               </GuestOnly>
             ),
           },
+          {
+            path: 'forgot-password',
+            element: (
+              <GuestOnly>
+                <ForgotPasswordPage />
+              </GuestOnly>
+            ),
+          },
+          {
+            path: 'reset-password',
+            element: (
+              <GuestOnly>
+                <ResetPasswordPage />
+              </GuestOnly>
+            ),
+          },
         ],
       },
+      { path: 'terms', element: <TermsPage /> },
+      { path: 'privacy', element: <PrivacyPage /> },
+      // { path: 'refunds', element: <RefundsPage /> },
+      { path: 'contact', element: <ContactPage /> },
       {
         path: 'dashboard',
         element: (
@@ -51,6 +78,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardPage /> },
           { path: 'upload', element: <UploadPage /> },
+          { path: 'premium', element: <PremiumUpgradePage /> },
         ],
       },
       {
