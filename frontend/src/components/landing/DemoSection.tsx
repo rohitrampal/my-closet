@@ -8,10 +8,11 @@ import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 const DEMO_KEYS = ['o1', 'o2', 'o3'] as const
 
-const GRADIENTS = [
-  'from-violet-500/40 via-fuchsia-500/30 to-rose-400/25',
-  'from-indigo-500/35 via-purple-500/25 to-pink-400/20',
-  'from-rose-400/35 via-fuchsia-500/25 to-violet-600/20',
+/** Public folder screenshots (spaces in filenames) — one per demo card. */
+const DEMO_SCREENSHOTS = [
+  '/Screenshot 2026-04-06 221420.png',
+  '/dublicate.png',
+  '/Screenshot 2026-04-06 221828.png',
 ] as const
 
 const PIECE_SUFFIXES = ['piece1', 'piece2', 'piece3'] as const
@@ -56,17 +57,22 @@ export function DemoSection() {
             return (
               <Reveal key={key} delay={i * 0.05} className="h-full">
                 <TiltCard className="h-full">
-                  <GlassCard padding="none" className="group flex h-full flex-col overflow-hidden">
-                    <div
-                      className={`relative h-44 bg-gradient-to-br ${GRADIENTS[i]} sm:h-48`}
-                      role="img"
-                      aria-label={t('landing.demo.outfitMoodAria', { name })}
-                    >
+                  <GlassCard
+                    padding="none"
+                    className="group flex h-full flex-col overflow-hidden"
+                  >
+                    <div className="relative h-44 overflow-hidden sm:h-48">
+                      <img
+                        src={encodeURI(DEMO_SCREENSHOTS[i])}
+                        alt=""
+                        aria-hidden
+                        className="h-full w-full object-cover object-top"
+                      />
                       <span className="absolute left-3 top-3 rounded-full bg-black/30 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-foreground/90 backdrop-blur-md">
                         {t(`landing.demo.${key}.tag`)}
                       </span>
                       <motion.div
-                        className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+                        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
                         aria-hidden
                       >
                         {!reduce && (
@@ -79,7 +85,9 @@ export function DemoSection() {
                       </motion.div>
                     </div>
                     <div className="flex flex-1 flex-col p-5">
-                      <h3 className="font-display text-lg font-semibold text-foreground">{name}</h3>
+                      <h3 className="font-display text-lg font-semibold text-foreground">
+                        {name}
+                      </h3>
                       <ul className="mt-3 space-y-1.5 text-sm text-muted">
                         {PIECE_SUFFIXES.map((suffix) => (
                           <li key={suffix} className="flex items-center gap-2">
@@ -88,7 +96,9 @@ export function DemoSection() {
                           </li>
                         ))}
                       </ul>
-                      <p className="mt-4 text-xs text-muted">{t('landing.demo.fromPieces')}</p>
+                      <p className="mt-4 text-xs text-muted">
+                        {t('landing.demo.fromPieces')}
+                      </p>
                     </div>
                   </GlassCard>
                 </TiltCard>

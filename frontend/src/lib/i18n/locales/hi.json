@@ -27,6 +27,7 @@
     "newPassword": "नया पासवर्ड",
     "confirmPassword": "पासवर्ड की पुष्टि करें",
     "backToLogin": "लॉगिन पर वापस",
+    "backToHome": "होम पर वापस",
     "showPassword": "पासवर्ड दिखाएँ",
     "hidePassword": "पासवर्ड छिपाएँ"
   },
@@ -377,7 +378,7 @@
     "premiumSub1": "स्मार्ट स्टाइलिंग, गहरी पर्सनलाइज़ेशन,",
     "premiumSub2": "और ऐसे लुक जो सही लगें।",
     "premiumSimplePricing": "सीधा मूल्य",
-    "premiumPrice": "$12",
+    "premiumPriceMain": "₹{{price}}",
     "premiumPerMonth": "/माह",
     "premiumEarlyAccess": "अर्ली एक्सेस",
     "premiumPerk1": "असीमित AI आउटफिट जनरेशन",

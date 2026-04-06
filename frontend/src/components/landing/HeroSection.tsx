@@ -6,6 +6,13 @@ import { LandingCtaLink } from '@/components/landing/LandingCtaLink'
 import { TiltCard } from '@/components/landing/TiltCard'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
+/** Public folder assets (filenames include spaces — encode for URLs). */
+const HERO_SLOT_IMAGES = {
+  top: '/Merino crew.avif',
+  bottom: '/Wide pleat trousers.jpg',
+  footwear: '/Leather loafer.avif',
+} as const
+
 function HeroOutfitCard() {
   const { t } = useTranslation()
   return (
@@ -17,10 +24,14 @@ function HeroOutfitCard() {
       </div>
       <div className="divide-y divide-border">
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
-          <div
-            className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-rose-400/45 to-fuchsia-600/35"
-            aria-hidden
-          />
+          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-white/10">
+            <img
+              src={encodeURI(HERO_SLOT_IMAGES.top)}
+              alt=""
+              className="h-full w-full object-cover"
+              aria-hidden
+            />
+          </div>
           <div className="min-w-0 text-left">
             <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
               {t('outfit.slots.top')}
@@ -31,10 +42,14 @@ function HeroOutfitCard() {
           </div>
         </div>
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
-          <div
-            className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-violet-500/40 to-indigo-700/35"
-            aria-hidden
-          />
+          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-white/10">
+            <img
+              src={encodeURI(HERO_SLOT_IMAGES.bottom)}
+              alt=""
+              className="h-full w-full object-cover"
+              aria-hidden
+            />
+          </div>
           <div className="min-w-0 text-left">
             <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
               {t('outfit.slots.bottom')}
@@ -45,10 +60,14 @@ function HeroOutfitCard() {
           </div>
         </div>
         <div className="flex min-h-[3.5rem] items-center gap-3 px-4 py-3">
-          <div
-            className="h-12 w-12 shrink-0 rounded-lg bg-gradient-to-br from-surface-light to-background"
-            aria-hidden
-          />
+          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg ring-1 ring-white/10">
+            <img
+              src={encodeURI(HERO_SLOT_IMAGES.footwear)}
+              alt=""
+              className="h-full w-full object-cover"
+              aria-hidden
+            />
+          </div>
           <div className="min-w-0 text-left">
             <p className="text-[10px] font-medium uppercase tracking-wide text-muted">
               {t('outfit.slots.footwear')}

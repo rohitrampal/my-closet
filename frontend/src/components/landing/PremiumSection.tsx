@@ -3,12 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { GlassCard } from '@/components/landing/GlassCard'
 import { LandingCtaLink } from '@/components/landing/LandingCtaLink'
 import { Reveal } from '@/components/landing/Reveal'
+import { usePaymentConfig } from '@/lib/api/queries/usePaymentConfig'
 
 const PERK_KEYS = ['premiumPerk1', 'premiumPerk2', 'premiumPerk3', 'premiumPerk4'] as const
 
 export function PremiumSection() {
   const { t } = useTranslation()
   const reduce = useReducedMotion()
+  const { data: pricing, isPending: pricingPending, isError: pricingError } = usePaymentConfig()
 
   return (
     <section className="relative px-4 py-12 md:py-20">
@@ -41,8 +43,22 @@ export function PremiumSection() {
                 <div>
                   <p className="text-sm font-medium text-muted">{t('landing.premiumSimplePricing')}</p>
                   <p className="font-display mt-1 text-4xl font-bold text-foreground sm:text-5xl">
-                    {t('landing.premiumPrice')}
-                    <span className="text-lg font-medium text-muted">{t('landing.premiumPerMonth')}</span>
+                    {pricingError ? (
+                      <span className="text-2xl font-semibold text-muted sm:text-3xl">
+                        {t('premium.priceUnavailable')}
+                      </span>
+                    ) : pricingPending || !pricing ? (
+                      <span className="text-2xl font-semibold text-muted sm:text-3xl">
+                        {t('premium.priceLoading')}
+                      </span>
+                    ) : (
+                      <>
+                        {t('landing.premiumPriceMain', { price: pricing.price })}
+                        <span className="text-lg font-medium text-muted">
+                          {t('landing.premiumPerMonth')}
+                        </span>
+                      </>
+                    )}
                   </p>
                 </div>
                 <span className="rounded-full border border-fuchsia-400/30 bg-fuchsia-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-fuchsia-200">

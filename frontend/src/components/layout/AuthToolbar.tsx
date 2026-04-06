@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { useUiStore } from '@/stores/useUiStore'
@@ -9,7 +10,13 @@ export function AuthToolbar() {
   const setLanguage = useUiStore((s) => s.setLanguage)
 
   return (
-    <div className="mb-6 flex flex-wrap items-center justify-end gap-2 sm:mb-8">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 sm:mb-8">
+      <Link
+        to="/"
+        className="text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-primary-soft hover:underline"
+      >
+        {t('auth.backToHome')}
+      </Link>
       <Card
         padding="none"
         radius="button"

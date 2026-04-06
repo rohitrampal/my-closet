@@ -27,6 +27,7 @@
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "backToLogin": "Back to login",
+    "backToHome": "Back to home",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
   },
@@ -377,7 +378,7 @@
     "premiumSub1": "Unlock smarter styling, deeper personalization,",
     "premiumSub2": "and outfits that just feel right.",
     "premiumSimplePricing": "Simple pricing",
-    "premiumPrice": "$12",
+    "premiumPriceMain": "₹{{price}}",
     "premiumPerMonth": "/mo",
     "premiumEarlyAccess": "Early access",
     "premiumPerk1": "Unlimited AI outfit generations",
