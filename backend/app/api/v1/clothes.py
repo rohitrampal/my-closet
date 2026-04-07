@@ -18,11 +18,18 @@ from app.models.clothes import Clothes, ClothesType
 from app.schemas.clothes import (
     ClothesAnalyzeResponse,
     ClothesCreate,
+    ClothesDuplicateCheckRequest,
+    ClothesDuplicateCheckResponse,
+    ClothesDuplicateItem,
     ClothesImageUploadResponse,
     ClothesListResponse,
     ClothesResponse,
 )
-from app.services.ai_tagging import analyze_image, analyze_image_bytes
+from app.services.ai_tagging import analyze_image
+from app.services.clothes_duplicate_detection import (
+    _decode_base64_payload,
+    detect_similar_clothes,
+)
 from app.services.clothes_vision_pipeline import analyze_garment_image
 from app.services.runtime_settings import get_system_settings
 from app.services.s3_storage import upload_clothes_object
@@ -217,6 +224,56 @@ async def analyze_clothes_tags(
         style=style,
         confidence=confidence,
         source=source_tag,
+    )
+
+
+@router.post("/check-duplicate", response_model=ClothesDuplicateCheckResponse)
+async def check_duplicate_clothes(
+    body: ClothesDuplicateCheckRequest,
+    db: DbSession,
+    current_user: CurrentUser,
+) -> ClothesDuplicateCheckResponse:
+    """Suggest similar wardrobe items before save (non-blocking)."""
+    raw: bytes | None = None
+    if body.image_url:
+        raw, _ = await _load_share_image_bytes(body.image_url)
+    elif body.base64:
+        try:
+            raw = _decode_base64_payload(body.base64)
+        except ValueError as exc:
+            raise AppException(
+                "Invalid base64 image.",
+                status_code=400,
+                error_code="INVALID_IMAGE_DATA",
+            ) from exc
+    if not raw:
+        raise AppException(
+            "Provide either image_url or base64.",
+            status_code=400,
+            error_code="INVALID_DUPLICATE_CHECK_INPUT",
+        )
+
+    result = await db.execute(select(Clothes).where(Clothes.user_id == current_user.id))
+    items = list(result.scalars().all())
+    similar = await asyncio.to_thread(
+        detect_similar_clothes,
+        raw,
+        items,
+        uploaded_type=body.clothes_type,
+    )
+    rows = [
+        ClothesDuplicateItem(
+            id=item.id,
+            image_url=item.image_url,
+            type=item.clothes_type.value,
+            color=item.color,
+            style=item.style,
+        )
+        for item in similar
+    ]
+    return ClothesDuplicateCheckResponse(
+        is_duplicate=len(rows) > 0,
+        similar_items=rows,
     )
 
 

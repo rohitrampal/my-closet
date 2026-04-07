@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
-import type { ClothesAnalyzeResult } from '@/lib/api/clothes'
+import type { ClothesAnalyzeResult, DuplicateClothesItem } from '@/lib/api/clothes'
 import { CLOTHES_TYPES, type ClothesType } from '@/lib/api/types'
 import { STYLE_CHIP_PRESETS, normalizeStyleChip } from '@/lib/wardrobe/styleChipPresets'
 
@@ -48,11 +48,15 @@ export type UploadSlotCardProps = {
   type: string
   color: string
   style: string
+  duplicateChecking?: boolean
+  similarItems?: DuplicateClothesItem[]
   fieldsDisabled: boolean
   onChange: (patch: { type?: string; color?: string; style?: string }) => void
   onEdit: () => void
   onSave: () => void
   onRetryAnalyze?: () => void
+  onSaveAnyway?: () => void
+  onSkipDuplicate?: () => void
   onRemove: () => void
 }
 
@@ -68,11 +72,15 @@ export function UploadSlotCard({
   type,
   color,
   style,
+  duplicateChecking = false,
+  similarItems = [],
   fieldsDisabled,
   onChange,
   onEdit,
   onSave,
   onRetryAnalyze,
+  onSaveAnyway,
+  onSkipDuplicate,
   onRemove,
 }: UploadSlotCardProps) {
   const { t } = useTranslation()
@@ -97,6 +105,11 @@ export function UploadSlotCard({
     (phase === 'editing' || (Boolean(analyzeError) && !detected))
 
   const showSaved = phase === 'saved' && !processing
+  const showDuplicateBlock = !processing && phase !== 'saved' && similarItems.length > 0
+  const duplicateSimilarLabelKey =
+    type && CLOTHES_TYPES.includes(type as ClothesType)
+      ? `clothes.duplicateSimilarGroup.${type}`
+      : null
 
   return (
     <div className="animate-upload-fade flex flex-col gap-3 rounded-2xl border border-border bg-surface/40 p-3 sm:p-4">
@@ -190,6 +203,62 @@ export function UploadSlotCard({
           {analyzeError}
         </p>
       )}
+
+      {duplicateChecking && !processing && phase !== 'saved' ? (
+        <p className="text-xs text-muted" role="status">
+          {t('clothes.duplicateChecking')}
+        </p>
+      ) : null}
+
+      {showDuplicateBlock ? (
+        <div className="space-y-3 rounded-xl border border-primary/20 bg-primary/5 p-3">
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-foreground">
+              {t('clothes.duplicateTitle')}
+            </p>
+            {duplicateSimilarLabelKey ? (
+              <p className="text-xs font-medium text-primary">{t(duplicateSimilarLabelKey)}</p>
+            ) : null}
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {similarItems.map((item) => (
+              <div
+                key={item.id}
+                className="min-w-28 shrink-0 space-y-1 rounded-lg border border-border bg-background/80 p-2"
+              >
+                <img
+                  src={item.image_url}
+                  alt={t('clothes.photoAlt')}
+                  className="h-20 w-full rounded-md object-cover"
+                  loading="lazy"
+                />
+                <p className="text-xs text-muted">{`${titleCaseWords(item.color)} • ${titleCaseWords(
+                  item.style
+                )}`}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              className="min-h-12 w-full touch-manipulation sm:min-h-11 sm:flex-1"
+              disabled={fieldsDisabled || saving}
+              onClick={onSaveAnyway ?? onSave}
+            >
+              {t('clothes.duplicateSaveAnyway')}
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              className="min-h-12 w-full touch-manipulation sm:min-h-11 sm:flex-1"
+              disabled={fieldsDisabled || saving}
+              onClick={onSkipDuplicate}
+            >
+              {t('clothes.duplicateSkip')}
+            </Button>
+          </div>
+        </div>
+      ) : null}
 
       {showEditForm && (
         <div className="animate-upload-fade space-y-3 border-t border-border pt-3">

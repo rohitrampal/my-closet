@@ -12,10 +12,12 @@ import {
 } from '@/components/wardrobe/UploadSlotCard'
 import {
   analyzeClothesImage,
+  checkDuplicateClothes,
   createClothes,
   fetchClothesTotal,
   uploadClothesImage,
   type ClothesAnalyzeResult,
+  type DuplicateClothesItem,
 } from '@/lib/api/clothes'
 import { getErrorMessage } from '@/lib/api/errors'
 import { clothesQueryKey } from '@/lib/api/queries/useClothes'
@@ -38,6 +40,8 @@ type UploadSlot = {
   detected: ClothesAnalyzeResult | null
   phase: UploadSlotPhase
   saving: boolean
+  duplicateChecking: boolean
+  similarItems: DuplicateClothesItem[]
   type: string
   color: string
   style: string
@@ -55,6 +59,8 @@ function emptySlot(id: string, previewUrl: string, file: File): UploadSlot {
     detected: null,
     phase: 'review',
     saving: false,
+    duplicateChecking: false,
+    similarItems: [],
     type: '',
     color: '',
     style: '',
@@ -150,8 +156,18 @@ export function UploadPage() {
       updateSlot(id, { analyzing: true, analyzeError: null })
       try {
         const hints = await analyzeClothesImage(s.imageFile)
+        updateSlot(id, { duplicateChecking: true, similarItems: [] })
+        let similarItems: DuplicateClothesItem[] = []
+        try {
+          const dupe = await checkDuplicateClothes(s.imageFile, hints.type)
+          similarItems = dupe.similar_items
+        } catch {
+          similarItems = []
+        }
         updateSlot(id, {
           analyzing: false,
+          duplicateChecking: false,
+          similarItems,
           detected: hints,
           phase: 'review',
           type: hints.type,
@@ -162,6 +178,7 @@ export function UploadPage() {
       } catch (e) {
         updateSlot(id, {
           analyzing: false,
+          duplicateChecking: false,
           analyzeError: getErrorMessage(e),
         })
       }
@@ -202,8 +219,18 @@ export function UploadPage() {
           })
           try {
             const hints = await analyzeClothesImage(imageFile)
+            updateSlot(id, { duplicateChecking: true, similarItems: [] })
+            let similarItems: DuplicateClothesItem[] = []
+            try {
+              const dupe = await checkDuplicateClothes(imageFile, hints.type)
+              similarItems = dupe.similar_items
+            } catch {
+              similarItems = []
+            }
             updateSlot(id, {
               analyzing: false,
+              duplicateChecking: false,
+              similarItems,
               detected: hints,
               phase: 'review',
               type: hints.type,
@@ -214,6 +241,8 @@ export function UploadPage() {
           } catch (e) {
             updateSlot(id, {
               analyzing: false,
+              duplicateChecking: false,
+              similarItems: [],
               detected: null,
               phase: 'editing',
               type: '',
@@ -286,7 +315,7 @@ export function UploadPage() {
   }
 
   const anySaving = slots.some((s) => s.saving)
-  const anyProcessing = slots.some((s) => s.preparing || s.analyzing)
+  const anyProcessing = slots.some((s) => s.preparing || s.analyzing || s.duplicateChecking)
 
   const showFirstTimeBanner = !wardrobeCountPending && wardrobeTotal < 3
 
@@ -384,6 +413,8 @@ export function UploadPage() {
                         detected={slot.detected}
                         phase={slot.phase}
                         saving={slot.saving}
+                        duplicateChecking={slot.duplicateChecking}
+                        similarItems={slot.similarItems}
                         type={slot.type}
                         color={slot.color}
                         style={slot.style}
@@ -392,6 +423,8 @@ export function UploadPage() {
                         onEdit={() => startEditSlot(slot.id)}
                         onSave={() => void saveSlotToCloset(slot.id)}
                         onRetryAnalyze={() => void reanalyzeSlot(slot.id)}
+                        onSaveAnyway={() => void saveSlotToCloset(slot.id)}
+                        onSkipDuplicate={() => removeSlot(slot.id)}
                         onRemove={() => removeSlot(slot.id)}
                       />
                     </li>

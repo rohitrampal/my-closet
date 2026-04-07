@@ -242,6 +242,18 @@
     "selectTypeOptional": "AI चुनने दें",
     "uploadInvalidType": "कृपया एक इमेज फ़ाइल चुनें।",
     "uploadCompressFailed": "यह इमेज प्रोसेस नहीं हो सकी। दूसरी आज़माएँ।",
+    "duplicateChecking": "वार्डरोब में मिलते-जुलते आइटम देख रहे हैं…",
+    "duplicateTitle": "लगता है आपके पास पहले से कोई मिलता-जुलता आइटम है 👀",
+    "duplicateSimilarGroup": {
+      "top": "मिलते-जुलते टॉप",
+      "bottom": "मिलते-जुलते बॉटम",
+      "dress": "मिलती-जुलती ड्रेस",
+      "outerwear": "मिलता-जुलता आउटरवियर",
+      "footwear": "मिलते-जुलते जूते",
+      "accessory": "मिलते-जुलते एक्सेसरीज़"
+    },
+    "duplicateSaveAnyway": "फिर भी सहेजें",
+    "duplicateSkip": "स्किप करें",
     "imageUrl": "इमेज URL",
     "type": "प्रकार",
     "selectType": "प्रकार चुनें",

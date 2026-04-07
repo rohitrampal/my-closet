@@ -128,6 +128,65 @@ export async function analyzeClothesImage(file: File): Promise<ClothesAnalyzeRes
   }
 }
 
+export type DuplicateClothesItem = {
+  id: number
+  image_url: string
+  type: ClothesType
+  color: string
+  style: string
+}
+
+export type DuplicateCheckResult = {
+  is_duplicate: boolean
+  similar_items: DuplicateClothesItem[]
+}
+
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error('Failed to read image file'))
+    reader.onload = () => {
+      const out = typeof reader.result === 'string' ? reader.result : ''
+      resolve(out)
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+export async function checkDuplicateClothes(
+  file: File,
+  clothesType?: ClothesType
+): Promise<DuplicateCheckResult> {
+  const base64 = await fileToBase64(file)
+  const { data } = await apiClient.post<{
+    is_duplicate: boolean
+    similar_items: Array<{
+      id: number
+      image_url: string
+      type: string
+      color: string
+      style: string
+    }>
+  }>(
+    '/clothes/check-duplicate',
+    {
+      base64,
+      ...(clothesType ? { clothes_type: clothesType } : {}),
+    },
+    { timeout: 120_000 }
+  )
+  return {
+    is_duplicate: data.is_duplicate,
+    similar_items: data.similar_items.map((row) => ({
+      id: row.id,
+      image_url: row.image_url,
+      type: row.type as ClothesType,
+      color: row.color,
+      style: row.style,
+    })),
+  }
+}
+
 export async function uploadClothesImage(file: File): Promise<string> {
   const formData = new FormData()
   formData.append('file', file)

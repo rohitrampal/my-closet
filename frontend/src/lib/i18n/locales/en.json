@@ -242,6 +242,18 @@
     "selectTypeOptional": "Let AI choose",
     "uploadInvalidType": "Please choose an image file.",
     "uploadCompressFailed": "Could not process that image. Try another photo.",
+    "duplicateChecking": "Checking your wardrobe for similar items…",
+    "duplicateTitle": "Looks like you already have a similar item 👀",
+    "duplicateSimilarGroup": {
+      "top": "Similar tops",
+      "bottom": "Similar bottoms",
+      "dress": "Similar dresses",
+      "outerwear": "Similar outerwear",
+      "footwear": "Similar shoes",
+      "accessory": "Similar accessories"
+    },
+    "duplicateSaveAnyway": "Save anyway",
+    "duplicateSkip": "Skip",
     "imageUrl": "Image URL",
     "type": "Type",
     "selectType": "Select type",

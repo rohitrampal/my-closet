@@ -85,6 +85,55 @@ class ClothesAnalyzeResponse(BaseModel):
     )
 
 
+class ClothesDuplicateCheckRequest(BaseModel):
+    """Payload for duplicate-check before saving a garment."""
+
+    image_url: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=_MAX_IMAGE_URL_CHARS,
+        description="Public image URL to evaluate against existing wardrobe",
+    )
+    base64: str | None = Field(
+        default=None,
+        min_length=1,
+        description="Raw base64 image bytes or data URL",
+    )
+    clothes_type: ClothesType | None = Field(
+        default=None,
+        description="Optional; when set (e.g. from analyze), only compare to wardrobe items of this type",
+    )
+
+    @field_validator("image_url")
+    @classmethod
+    def normalize_image_url(cls, v: str | None) -> str | None:
+        if v is None:
+            return None
+        s = v.strip()
+        return s or None
+
+    @field_validator("base64")
+    @classmethod
+    def normalize_base64(cls, v: str | None) -> str | None:
+        if v is None:
+            return None
+        s = v.strip()
+        return s or None
+
+
+class ClothesDuplicateItem(BaseModel):
+    id: int
+    image_url: str
+    type: str
+    color: str
+    style: str
+
+
+class ClothesDuplicateCheckResponse(BaseModel):
+    is_duplicate: bool
+    similar_items: list[ClothesDuplicateItem]
+
+
 class ClothesResponse(BaseModel):
     """Single clothing item returned from the API."""
 
