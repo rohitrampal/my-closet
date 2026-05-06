@@ -111,6 +111,32 @@ class Settings(BaseSettings):
         default=None,
         description="Optional S3 API endpoint (e.g. LocalStack http://localhost:4566)",
     )
+    STORAGE_FALLBACK_TO_CLOUDINARY: bool = Field(
+        default=False,
+        description="If true, uploads fallback to Cloudinary when S3 has retryable failures",
+    )
+    CLOUDINARY_CLOUD_NAME: str | None = Field(
+        default=None,
+        description="Cloudinary cloud name (required when fallback is enabled)",
+    )
+    CLOUDINARY_API_KEY: str | None = Field(
+        default=None,
+        description="Cloudinary API key (required when fallback is enabled)",
+    )
+    CLOUDINARY_API_SECRET: str | None = Field(
+        default=None,
+        description="Cloudinary API secret (required when fallback is enabled)",
+    )
+    CLOUDINARY_FOLDER: str | None = Field(
+        default="clothes",
+        description="Optional Cloudinary folder prefix for uploaded garment images",
+    )
+    CLOUDINARY_UPLOAD_TIMEOUT_SECONDS: float = Field(
+        default=20.0,
+        ge=5.0,
+        le=120.0,
+        description="Timeout for Cloudinary upload API calls (seconds)",
+    )
 
     GEMINI_API_KEY: str | None = Field(
         default=None,
