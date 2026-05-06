@@ -63,24 +63,27 @@ export function LandingNav() {
           </Card>
           <Link
             to="/login"
-            className="hidden shrink-0 rounded-full px-2 py-1.5 text-[11px] font-medium text-muted transition-colors hover:text-foreground min-[380px]:inline-flex min-[380px]:px-3 min-[380px]:text-sm sm:px-4 sm:py-2"
+            className="hidden shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground sm:inline-flex sm:px-4"
           >
             {t('landing.navLogin')}
           </Link>
           <Link
             to="/signup"
-            className="hidden shrink-0 rounded-full px-2.5 py-2 text-xs font-medium text-muted transition-colors hover:text-foreground min-[380px]:px-3 min-[380px]:text-sm sm:inline-flex sm:px-4"
+            className="hidden shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground sm:inline-flex sm:px-4"
           >
             {t('landing.navSignup')}
           </Link>
-          <LandingCtaLink className="max-w-[min(42vw,10rem)] px-2.5 py-1.5 text-[11px] leading-tight min-[380px]:max-w-42 min-[380px]:px-3 min-[380px]:text-xs sm:max-w-none sm:px-5 sm:py-2 sm:text-sm sm:leading-snug" />
+          <div className="hidden sm:block">
+            <LandingCtaLink className="sm:max-w-none sm:px-5 sm:py-2 sm:text-sm sm:leading-snug" />
+          </div>
           <Button
             type="button"
             variant="ghost"
-            className="min-h-8 min-w-8 rounded-full p-1.5 text-foreground sm:hidden"
+            className="min-h-8 min-w-8 rounded-full p-1.5 text-foreground sm:hidden data-[active=true]:bg-surface-light data-[active=true]:text-foreground"
             aria-label="Open menu"
             aria-expanded={isMobileMenuOpen}
             aria-controls="landing-mobile-menu"
+            data-active={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           >
             <span className="sr-only">Menu</span>
@@ -92,22 +95,20 @@ export function LandingNav() {
           </Button>
         </div>
         {isMobileMenuOpen ? (
-          <Card
+          <div
             id="landing-mobile-menu"
-            padding="none"
-            radius="button"
-            className="absolute left-3 right-3 top-[calc(100%+0.5rem)] z-50 flex flex-col gap-1 border border-border bg-background/95 p-2 shadow-lg shadow-glow sm:hidden"
+            className="absolute left-3 right-3 top-[calc(100%+0.5rem)] z-60 flex flex-col gap-1 rounded-(--radius-button) border border-fuchsia-300/45 bg-[#120824] p-2 shadow-2xl shadow-black/70 ring-1 ring-white/20 sm:hidden"
           >
             <Link
               to="/login"
-              className="inline-flex min-h-10 items-center rounded-(--radius-button) px-3 text-sm font-medium text-foreground/90 transition-colors hover:bg-surface"
+              className="inline-flex min-h-10 items-center rounded-(--radius-button) px-3 text-sm font-semibold text-white transition-colors hover:bg-white/15"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('landing.navLogin')}
             </Link>
             <Link
               to="/signup"
-              className="inline-flex min-h-10 items-center rounded-(--radius-button) px-3 text-sm font-medium text-foreground/90 transition-colors hover:bg-surface"
+              className="inline-flex min-h-10 items-center rounded-(--radius-button) px-3 text-sm font-semibold text-white transition-colors hover:bg-white/15"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {t('landing.navSignup')}
@@ -116,7 +117,7 @@ export function LandingNav() {
               className="mt-1 w-full"
               onClick={() => setIsMobileMenuOpen(false)}
             />
-          </Card>
+          </div>
         ) : null}
       </nav>
     </motion.header>
